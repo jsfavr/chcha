@@ -171,3 +171,14 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',
 )
+JWT_AUTH = {
+
+     'JWT_EXPIRATION_DELTA': datetime.timedelta(seconds=3000000),
+
+     'JWT_REFRESH_EXPIRATION_DELTA': datetime.timedelta(days=7),
+
+}
+
+WEBERLEADS_SENDERID = 'CROWDT'
+WEBERLEADS_API = '363863726f77643630331619504606'
+
