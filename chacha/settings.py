@@ -31,7 +31,7 @@ ALLOWED_HOSTS = ['backend.hardwarechacha.com','65.0.7.70']
 
 
 # Application definition
-
+AUTH_USER_MODEL = 'authentication.User'
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
