@@ -187,15 +187,13 @@ class LoginotpuserSerializer(serializers.ModelSerializer):
                 raise AuthenticationFailed('Email not Verified', 'try again')
         else:
             raise AuthenticationFailed('Phone No Invalid', 'try again')
-
         return {
             'id': user.id,
             'email': user.email,
             'name': user.name,
             'phone':users.phone,
-            'tokens': user.tokens,
+            'tokens':user.tokens,
         }
-        return super().validate(attrs)
 class LoginotpadminSerializer(serializers.ModelSerializer):
     email = serializers.CharField(max_length=10, min_length=10, read_only=True)
     phone = serializers.CharField(max_length=10, min_length=10)

@@ -105,26 +105,26 @@ WSGI_APPLICATION = 'chacha.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'chachadb',
-        'USER': 'chacha',
-	    'PASSWORD': 'chacha123',
-        'HOST': 'database-1.c5hljxkgngo2.ap-south-1.rds.amazonaws.com',
-        'PORT': 3306
-    }
-}
 # DATABASES = {
 #     'default': {
 #         'ENGINE': 'django.db.backends.mysql',
 #         'NAME': 'chachadb',
-#         'USER': 'root',
-# 	    'PASSWORD': '',
-#         'HOST': 'localhost',
+#         'USER': 'chacha',
+# 	    'PASSWORD': 'chacha123',
+#         'HOST': 'database-1.c5hljxkgngo2.ap-south-1.rds.amazonaws.com',
 #         'PORT': 3306
 #     }
 # }
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'chachadb',
+        'USER': 'root',
+	    'PASSWORD': '',
+        'HOST': 'localhost',
+        'PORT': 3306
+    }
+}
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [

@@ -12,7 +12,7 @@ from .utils import Util
 from django.contrib.sites.shortcuts import get_current_site
 from django.urls import reverse
 import jwt
-
+import ast
 from drf_yasg.utils import swagger_auto_schema
 from drf_yasg import openapi
 from django.contrib.auth.hashers import make_password
@@ -40,37 +40,42 @@ import shortuuid
 # Create your views here.
 
 
-class RegisterView(generics.GenericAPIView):
-    serializer_class = RegisterSerializer
-
+class RegisterView(views.APIView):
     def post(self, request):
         user = request.data
         referUserID = 0
         su = shortuuid.ShortUUID(alphabet="01345678")
-        # print(su.random(length=6))
-        # return response(True)
         if len(user['refer_code']) > 5:
             referDetails = User.objects.filter(
                 username=user['refer_code']).first()
             if referDetails:
                 referUserID = referDetails.id
         # print(user)
-        user._mutable = True
-        user['role_id'] = 1
-        user['username'] = su.random(length=6)
-        user['referUserID'] = referUserID
-        user['is_verified'] = 1
-        user['password'] = make_password(user['phone'])
-        user._mutable = False
+        check_user = User.objects.filter(
+            email=user['email']
+        ).first()
+        if check_user:
+            return Response({'msg':'Email already exits'},status=status.HTTP_400_BAD_REQUEST)
+        check_phone = User.objects.filter(
+            phone=user['phone']
+        ).first()
+        if check_phone:
+            return Response({'msg':'Phone already exits'},status=status.HTTP_400_BAD_REQUEST)
+        new_data = User.objects.create(
+            name=user['name'],
+            username= su.random(length=6),
+            email= user['email'],
+            password=  make_password(user['phone']),
+            phone=  user['phone'],
+            role_id= 1,
+            refer_code= user['refer_code'],
+            is_verified = True,
+            referUserID= referUserID
+        )
+        new_data.save()
 
-        # print(user)
-        serializer = self.serializer_class(data=user)
-        serializer.is_valid(raise_exception=True)
-        serializer.save()
 
-        user_data = serializer.data
-
-        user = User.objects.get(email=user_data['email'])
+        # user = User.objects.get(email=user_data['email'])
         # token = RefreshToken.for_user(user).access_token
 
         # current_site = get_current_site(request).domain
@@ -99,7 +104,7 @@ class RegisterView(generics.GenericAPIView):
         # }
         # Util.email_send(data)
 
-        return Response(user_data, status=status.HTTP_200_OK)
+        return Response({'user': 'Successfully Added'}, status=status.HTTP_200_OK)
 
 
 class VerifyEmail(views.APIView):
@@ -258,6 +263,7 @@ class LoginotpuserView(generics.GenericAPIView):
         serializer.is_valid(raise_exception=True)
 
         user_data = serializer.data
+
         return Response(user_data, status=status.HTTP_200_OK)
 
 
