@@ -27,7 +27,7 @@ SECRET_KEY = 'django-insecure-eymc@^2@qa!^95!_a^so9#uipqpl*x8(6@$90dlhkkb^g-vs@5
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['backend.hardwarechacha.com','65.0.7.70']
+ALLOWED_HOSTS = ['backend.hardwarechacha.com','65.0.7.70','*']
 
 
 # Application definition
@@ -110,11 +110,21 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'chachadb',
         'USER': 'chacha',
-	'PASSWORD': 'chacha123',
+	    'PASSWORD': 'chacha123',
         'HOST': 'database-1.c5hljxkgngo2.ap-south-1.rds.amazonaws.com',
         'PORT': 3306
     }
 }
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.mysql',
+#         'NAME': 'chachadb',
+#         'USER': 'root',
+# 	    'PASSWORD': '',
+#         'HOST': 'localhost',
+#         'PORT': 3306
+#     }
+# }
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [

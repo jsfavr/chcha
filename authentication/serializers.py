@@ -227,7 +227,6 @@ class LoginotpadminSerializer(serializers.ModelSerializer):
             'phone':users.phone,
             'tokens': user.tokens,
         }
-        return super().validate(attrs)
 
 class LoginvendorSerializer(serializers.ModelSerializer):
     email = serializers.EmailField(max_length=255, min_length=3)

@@ -389,7 +389,7 @@ class subscribe(views.APIView):
         phone_no = self.request.user.phone
         name = self.request.user.name
         email = self.request.user.email
-        smsSend(phone_no, sms_body, template_id)
+        # smsSend(phone_no, sms_body, template_id)
         data = {
             'name': name,
             'email': email,
@@ -477,7 +477,7 @@ class subscribeFromAdmin(views.APIView):
         phone_no = userDetails.phone
         name = userDetails.name
         email = userDetails.email
-        smsSend(phone_no, sms_body, template_id)
+        # smsSend(phone_no, sms_body, template_id)
         data = {
             'name': name,
             'email': email,

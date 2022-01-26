@@ -115,7 +115,7 @@ class AddStock(views.APIView):
         template_id = ''
         # sms_body = inputs['msg']
         # phone_no = inputs['phone_no']
-        smsSend(number, msg, template_id)
+        # smsSend(number, msg, template_id)
 
         # response = requests.get(
         #     "http://weberleads.in/http-tokenkeyapi.php?authentic-key=3134696e7374616e745f6765747761793631321586003895&senderid=INGWAY&route=2&number="+number+"&message="+msg)
@@ -567,7 +567,7 @@ class LoginOTP(views.APIView):
         template_id = inputs['template_id']
         sms_body = inputs['msg']
         phone_no = inputs['phone_no']
-        smsSend(phone_no, sms_body, template_id)
+        # smsSend(phone_no, sms_body, template_id)
         # response = requests.get("https://api.datagenit.com/sms?auth=D!~6674T0cAq4CXCS&msisdn=" +
         #                         inputs['phone_no']+"&senderid=QUANTX&message="+inputs['msg']+"&template_id=1207161777825362581")
         # print(response)

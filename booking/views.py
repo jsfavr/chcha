@@ -239,15 +239,15 @@ class userCancelBookingAPIView(views.APIView):
             # Util.email_send(data)
             message = 'Booking Canceled : Hi, your order has been canceled as per your request.'
             template_id = ''
-            smsSend(phone_no, message, template_id)
-            data = {
-                'name': name,
-                'email': email,
-                'subject': 'Booking Canceld',
-                'message': 'Your order has been canceled as per your request.',
-                'from_email': settings.EMAIL_HOST_USER
-            }
-            Util.email_send(data)
+            # smsSend(phone_no, message, template_id)
+            # data = {
+            #     'name': name,
+            #     'email': email,
+            #     'subject': 'Booking Canceld',
+            #     'message': 'Your order has been canceled as per your request.',
+            #     'from_email': settings.EMAIL_HOST_USER
+            # }
+            # Util.email_send(data)
         else:
             newrel = {
                 'status': 'Booking already Canceled',
@@ -581,15 +581,15 @@ class userReturnBookingAPIView(views.APIView):
         # Util.email_send(data)
         # message ='Booking Canceled : Hi, your order has been canceled as per your request.'
         template_id = ''
-        smsSend(phone_no, sms_body, template_id)
-        data = {
-            'name': name,
-            'email': email,
-            'subject': 'Return Request Successfully',
-            'message': ' We have receive a return request of your order. We will notify you as soon as possible.',
-            'from_email': settings.EMAIL_HOST_USER
-        }
-        Util.email_send(data)
+        # smsSend(phone_no, sms_body, template_id)
+        # data = {
+        #     'name': name,
+        #     'email': email,
+        #     'subject': 'Return Request Successfully',
+        #     'message': ' We have receive a return request of your order. We will notify you as soon as possible.',
+        #     'from_email': settings.EMAIL_HOST_USER
+        # }
+        # Util.email_send(data)
         return Response(newrel)
 
 
@@ -1337,18 +1337,18 @@ class statusChange(views.APIView):
                 subject = 'Order Returned'
                 message = "Your return items received to admin. Return request is successfully completed and the booking amount is refunded to your Wallet."
                 template_id = ''
-            try:
-                smsSend(phoneNumber, sms, template_id)
-                data = {
-                    'name': name,
-                    'email': email,
-                    'subject': subject,
-                    'message': message,
-                    'from_email': settings.EMAIL_HOST_USER
-                }
-                Util.email_send(data)
-            except:
-                print("An exception occurred")           
+            # try:
+            #     smsSend(phoneNumber, sms, template_id)
+            #     data = {
+            #         'name': name,
+            #         'email': email,
+            #         'subject': subject,
+            #         'message': message,
+            #         'from_email': settings.EMAIL_HOST_USER
+            #     }
+            #     Util.email_send(data)
+            # except:
+            #     print("An exception occurred")           
             returnArr = {
                 'status': 'Status Change Successfully'
             }

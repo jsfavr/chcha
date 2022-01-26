@@ -265,7 +265,7 @@ class vendorPayment(views.APIView):
                     str(inputs['transID']) + \
                     '. Any query visit https://crowdindia.co.in/contact.html'
                 template_id = '1207161907157203553'
-                smsSend(phone, message, template_id)
+                # smsSend(phone, message, template_id)
                 data = {
                     'name': name,
                     'email': email,
@@ -276,7 +276,7 @@ class vendorPayment(views.APIView):
                     '. Any query visit https://crowdindia.co.in/contact.html',
                     'from_email': settings.EMAIL_HOST_USER
                 }
-                Util.email_send(data)
+                # Util.email_send(data)
                 returnArr = {
                     'status': 'Withdrawal Request Completed.'
                 }
@@ -310,7 +310,7 @@ class vendorPaymentCancel(views.APIView):
                 str(reddemPrice) + \
                 ' rupees canceled by admin. Any query visit https://crowdindia.co.in/contact.html'
             template_id = ''
-            smsSend(phone, message, template_id)
+            # smsSend(phone, message, template_id)
             data = {
                 'name': name,
                 'email': email,
@@ -318,7 +318,7 @@ class vendorPaymentCancel(views.APIView):
                 'message': 'Your Wallet balance withdrawal request of ' + str(reddemPrice) + ' rupees canceled by admin. Any query visit https://crowdindia.co.in/contact.html',
                 'from_email': settings.EMAIL_HOST_USER
             }
-            Util.email_send(data)
+            # Util.email_send(data)
             returnArr = {
                 'status': 'Withdrawal Request Canceled.'
             }

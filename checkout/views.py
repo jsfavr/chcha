@@ -528,17 +528,17 @@ class orderSubmitAPIView(views.APIView):
                 }
             sms_body = 'Booking Successful : Thank you for ordering with Crowd, Your order is successfully placed. We will notify you as soon as when your order is ready.'
 
-            data = {
-                'name': name,
-                'email': email,
-                'subject': 'Order Placed Successfully',
-                'message': 'Thank you for ordering with Crowd, Your order is successfully placed. We will notify you as soon as when your order is ready.',
-                'from_email': settings.EMAIL_HOST_USER
-            }
-            Util.email_send(data)
+            # data = {
+            #     'name': name,
+            #     'email': email,
+            #     'subject': 'Order Placed Successfully',
+            #     'message': 'Thank you for ordering with Crowd, Your order is successfully placed. We will notify you as soon as when your order is ready.',
+            #     'from_email': settings.EMAIL_HOST_USER
+            # }
+            # Util.email_send(data)
 
-            template_id = '1207161779674247058'
-            smsSend(phone_no, sms_body, template_id)
+            # template_id = '1207161779674247058'
+            # smsSend(phone_no, sms_body, template_id)
         except:
             newrel = {
                 'status': 'Booking Unsuccessfull',

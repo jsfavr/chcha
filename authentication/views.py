@@ -71,10 +71,10 @@ class RegisterView(generics.GenericAPIView):
         user_data = serializer.data
 
         user = User.objects.get(email=user_data['email'])
-        token = RefreshToken.for_user(user).access_token
+        # token = RefreshToken.for_user(user).access_token
 
-        current_site = get_current_site(request).domain
-        relativeLink = reverse('email-verify')
+        # current_site = get_current_site(request).domain
+        # relativeLink = reverse('email-verify')
 
         # sms_body = 'Welcome ' + user.name + \
         #     ', You are successfully register on Crowd. Please download our apps https://crowdindia.co.in/app/download'
@@ -85,19 +85,19 @@ class RegisterView(generics.GenericAPIView):
         # data = {'email_body': email_body, 'to_email': user.email, 'email_subject': 'Verify Your Email'}
         # Util.send_email(data)
 
-        message = 'Welcome ' + user.name + \
-            ', You are successfully register on Crowd. Please download our apps https://crowdindia.co.in/app/download'
-        template_id = '1207161907105543463'
-        smsSend(user.phone, message, template_id)
-        data = {
-            'name': user.name,
-            'email': user.email,
-            'subject': 'Register Successfully',
-            'message': 'Welcome ' + user.name +
-            ', You are successfully register on Crowd. Please download our apps https://crowdindia.co.in/app/download',
-            'from_email': settings.EMAIL_HOST_USER
-        }
-        Util.email_send(data)
+        # message = 'Welcome ' + user.name + \
+        #     ', You are successfully register on Crowd. Please download our apps https://crowdindia.co.in/app/download'
+        # template_id = '1207161907105543463'
+        # smsSend(user.phone, message, template_id)
+        # data = {
+        #     'name': user.name,
+        #     'email': user.email,
+        #     'subject': 'Register Successfully',
+        #     'message': 'Welcome ' + user.name +
+        #     ', You are successfully register on Crowd. Please download our apps https://hardwarechacha.com/app/download',
+        #     'from_email': settings.EMAIL_HOST_USER
+        # }
+        # Util.email_send(data)
 
         return Response(user_data, status=status.HTTP_200_OK)
 
@@ -137,10 +137,10 @@ class RegisterVendorView(generics.GenericAPIView):
         user_data = serializer.data
 
         user = User.objects.get(email=user_data['email'])
-        token = RefreshToken.for_user(user).access_token
+        # token = RefreshToken.for_user(user).access_token
 
-        current_site = get_current_site(request).domain
-        relativeLink = reverse('email-verify')
+        # current_site = get_current_site(request).domain
+        # relativeLink = reverse('email-verify')
         # sms_body = 'Welcome ' + user.name + \
         #     ', You are successfully register on Crowd as a Vendor. Please wait for admin approval. Any query visit https://crowdindia.co.in/contact.html'
         # response = requests.get(
@@ -149,19 +149,19 @@ class RegisterVendorView(generics.GenericAPIView):
         # email_body = 'Hi ' + user.username + ' Use link below to verify your email\n' + absurl
         # data = {'email_body': email_body, 'to_email': user.email, 'email_subject': 'Verify Your Email'}
         # Util.send_email(data)
-        message = 'Welcome ' + user.name + \
-            ', You are successfully register on Crowd as a Vendor. Please wait for admin approval. Any query visit https://crowdindia.co.in/contact.html'
-        template_id = '1207161907136672146'
-        smsSend(user.phone, message, template_id)
-        data = {
-            'name': user.name,
-            'email': user.email,
-            'subject': 'Register Successfully',
-            'message': 'Welcome ' + user.name +
-            ', You are successfully register on Crowd as a Vendor. Please wait for admin approval. Any query visit https://crowdindia.co.in/contact.html',
-            'from_email': settings.EMAIL_HOST_USER
-        }
-        Util.email_send(data)
+        # message = 'Welcome ' + user.name + \
+        #     ', You are successfully register on Crowd as a Vendor. Please wait for admin approval. Any query visit https://crowdindia.co.in/contact.html'
+        # template_id = '1207161907136672146'
+        # smsSend(user.phone, message, template_id)
+        # data = {
+        #     'name': user.name,
+        #     'email': user.email,
+        #     'subject': 'Register Successfully',
+        #     'message': 'Welcome ' + user.name +
+        #     ', You are successfully register on Crowd as a Vendor. Please wait for admin approval. Any query visit https://crowdindia.co.in/contact.html',
+        #     'from_email': settings.EMAIL_HOST_USER
+        # }
+        # Util.email_send(data)
         return Response(user_data, status=status.HTTP_200_OK)
 
 
