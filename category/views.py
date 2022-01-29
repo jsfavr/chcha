@@ -12,6 +12,7 @@ from rest_framework.response import Response
 import json
 from product.models import Product
 from booking.models import Booking
+from django.conf import settings
 class CategoryAPIView(ListCreateAPIView):
     serializer_class = CategorySerializer
     queryset = Category.objects.all()
@@ -187,3 +188,44 @@ class SubcategoryDetails(views.APIView):
             return Response({'gst':get_sub.gst,'commission':get_sub.commission},status=status.HTTP_200_OK)
         else:
             return Response({'msg':0},status=status.HTTP_200_OK)
+
+class GetSubcategories(views.APIView):
+    def post(self,request):
+        inputs = request.data
+        subArray = []
+        path = settings.MEDIA_URL
+        get_sub = SubCategory.objects.filter(cat_id=inputs['cat_id']).all()
+
+        for sub in get_sub:
+            newArr = {
+                'id': sub.id,
+                'sub_cat_name': sub.sub_cat_name,
+                'sub_cat_icon': path+str(sub.sub_cat_icon),
+                'commission': sub.commission,
+                'gst': sub.gst,
+                'homepage_view_status': sub.homepage_view_status,
+            }
+            subArray.append(newArr)
+        if get_sub:
+            return Response({'data':subArray},status=status.HTTP_200_OK)
+        else:
+            return Response({'msg':'Data not found'},status=status.HTTP_400_BAD_REQUEST)
+
+class GetSubSubcategories(views.APIView):
+    def post(self,request):
+        inputs = request.data
+        subArray = []
+        path = settings.MEDIA_URL
+        get_sub = SubSubCategory.objects.filter(sub_cat_id=inputs['sub_cat_id']).all()
+
+        for sub in get_sub:
+            newArr = {
+                'id': sub.id,
+                'sub_cat_name': sub.sub_sub_cat_name,
+                'sub_cat_icon': path+str(sub.sub_sub_cat_icon),
+            }
+            subArray.append(newArr)
+        if get_sub:
+            return Response({'data':subArray},status=status.HTTP_200_OK)
+        else:
+            return Response({'msg':'Data not found'},status=status.HTTP_400_BAD_REQUEST)

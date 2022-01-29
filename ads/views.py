@@ -61,7 +61,6 @@ class ViewVideoAds(views.APIView):
 
     def post(self, request):
         user_id = self.request.user.id
-        print(user_id)
         adsArray = []
         path = settings.MEDIA_URL
         ads = Ads.objects.all().order_by('-id')

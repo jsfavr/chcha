@@ -24,4 +24,6 @@ urlpatterns = [
     path('subcheckchild/',views.ChecksubchildAPI.as_view(),name='subcheckchild'),
     path('procheckchild/',views.CheckprochildAPI.as_view(),name='procheckchild'),
     path('getsubcat/',views.SubcategoryDetails.as_view(),name='getsubcat'),
+    path('subcategories/',views.GetSubcategories.as_view(),name='subcategories'),
+    path('subsubcategories/',views.GetSubSubcategories.as_view(),name='subsubcategories'),
 ]
