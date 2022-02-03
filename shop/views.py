@@ -90,56 +90,29 @@ class AllShopAPIView(views.APIView):
         if len(inputs['productName'])>1:
             product=product.filter(productName__contains=inputs['productName'])
 
-     
         if len(inputs['brand'])!=0:
             product=product.filter(productBrandID_id__in=inputs['brand'])
-
         if len(inputs['size'])!=0:
-            product=product.filter(size__in=inputs['size'])
-        
+            product=product.filter(size__in=inputs['size'])    
         if len(inputs['color'])!=0:
             product=product.filter(color__in=inputs['color'])
-
         if len(inputs['ratting'])!=0:
-            product=product.filter(avgReview__gte=float(min(inputs['ratting'])))
-        
+            product=product.filter(avgReview__gte=float(min(inputs['ratting'])))   
         if inputs['minPrice']!=0 or inputs['maxPrice']!=25000:
-            product=product.filter(mrp__gte=inputs['minPrice'],mrp__lte=inputs['maxPrice'])
-
-
-        
+            product=product.filter(mrp__gte=inputs['minPrice'],mrp__lte=inputs['maxPrice'])      
         if int(inputs['sorting'])!=0:
             if int(inputs['sorting'])==1:
                  product=product.order_by('-id')
-                 print(1)
             if int(inputs['sorting'])==2:
                  product=product.order_by('-viewCount')
-                 print(2)
-
             if int(inputs['sorting'])==3:
                  product=product.order_by('-avgReview')
-                 print(3)
-
             if int(inputs['sorting'])==4:
                  product=product.order_by('avgReview')
-                 print(4)
-
             if int(inputs['sorting'])==5:
                  product=product.order_by('sellingPrice')
-                 print(5)
-
             if int(inputs['sorting'])==6:
-                 product=product.order_by('-sellingPrice')
-                 print(6)
-
-            
-
-
-
-
-
-
-            
+                 product=product.order_by('-sellingPrice')   
         modifiedrel=[]
         for eachrel in product:
             det= Product.objects.filter(id=eachrel.id)

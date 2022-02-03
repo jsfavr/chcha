@@ -35,7 +35,7 @@ urlpatterns = [
          name='viewProducts'),
     path('viewadminProducts/<id>',
          views.SingleProductAdminAPIView.as_view(), name='viewadminProducts'),
-    path('viewuserProducts/<id>/<size>/<color>/<group>',
+    path('viewuserProducts/',
          views.SingleProductUserAPIView.as_view(), name='viewuserProducts'),
 
     path('addproduct/', views.ProductaddAPI.as_view(), name='addproduct'),

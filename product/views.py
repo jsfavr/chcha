@@ -744,20 +744,16 @@ class MutilpleProductImageAPI(views.APIView):
 
 
 class SingleProductUserAPIView(views.APIView):
-    def get(self, request, id, size, color, group):
+    def post(self, request):
         # print(request.GET)
         # print(id)
         # product=int(id)
         # print(product)
-
-        if id != '0':
-            pid = id
+        inputs = request.data
+        if inputs['id'] or inputs['id'] != 0:
+            pid = inputs['id']
         else:
-            productss = Product.objects.filter(
-                size=size, color=color, productGroupID_id=group)
-            for eachProd222 in productss:
-                pid = eachProd222.id
-
+            return Response({'product': 'product not found'}, status=status.HTTP_400_BAD_REQUEST)
         # print(id)
         # print(size)
         # print(color)
