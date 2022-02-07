@@ -12,6 +12,7 @@ urlpatterns = [
     path('deliveryBoyPincode/<int:id>', views.DeliveryBoyPincodeDetailsAPIView.as_view(),name='deliveryBoyPincodeDetails'),
     path('delBoyPincodedetails/<int:id>', views.DeliveryBoyPincodeDetailsView.as_view(),name='delBoyPincodeDetails'),
     path('BillingAddressadd', views.DeliveryBillingAddressView.as_view(),name='BillingAddressadd'),
+    path('getBillingAddress', views.FetchBillingAddressView.as_view(),name='getBillingAddress'),
     path('FetchShippingAddress', views.FetchShippingAddressView.as_view(),name='FetchShippingAddress'),
     path('gerDeliveryBoy/<pincode>', views.userListPincode.as_view(),name='gerDeliveryBoy'),
     path('deliveryBoyPincodeAdd/', views.deliveryBoyPincodeADD.as_view(),name='deliveryBoyPincodeAdd')

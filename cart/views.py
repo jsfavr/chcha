@@ -186,7 +186,11 @@ class AddUserCart(views.APIView):
         cart_item = Cart.objects.filter(
             user_id_id=user_id, product_id_id=inputs['product_id'])
         if cart_item:
-            return Response({'cart': 'Item Already Added'}, status=status.HTTP_200_OK)
+            cart_data = Cart.objects.filter(
+                user_id_id=user_id, product_id_id=inputs['product_id']
+            ).update(
+                quantity=inputs['quantity'])
+            return Response({'cart': 'Item Already Updated'}, status=status.HTTP_200_OK)
         else:
             cart_data = Cart.objects.create(
                 quantity=inputs['quantity'], product_id_id=inputs['product_id'], user_id_id=user_id)
@@ -211,7 +215,6 @@ class AddUserWishlist(views.APIView):
 
 class CountCartlist(views.APIView):
     permission_classes = [permissions.IsAuthenticated, IsOwner]
-
     def get(self, request):
         user_id = self.request.user.id
         total_cardlist = Cart.objects.filter(user_id_id=user_id).count()

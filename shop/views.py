@@ -98,7 +98,7 @@ class AllShopAPIView(views.APIView):
             product=product.filter(color__in=inputs['color'])
         if len(inputs['ratting'])!=0:
             product=product.filter(avgReview__gte=float(min(inputs['ratting'])))   
-        if inputs['minPrice']!=0 or inputs['maxPrice']!=25000:
+        if inputs['minPrice']!=0 or inputs['maxPrice']!=0:
             product=product.filter(mrp__gte=inputs['minPrice'],mrp__lte=inputs['maxPrice'])      
         if int(inputs['sorting'])!=0:
             if int(inputs['sorting'])==1:
