@@ -138,7 +138,7 @@ class FetchShippingAddressView(views.APIView):
                 "flat": eachProd1.flat,
                 "address": eachProd1.address,
                 "location": eachProd1.location,
-                "landmark": eachProd1.landmark,
+                "landmark": eachProd1.location,
                 "city": eachProd1.city,
                 "district": eachProd1.district,
                 "state": eachProd1.state,
@@ -154,24 +154,19 @@ class FetchBillingAddressView(views.APIView):
     permission_classes = [permissions.IsAuthenticated, IsOwner]
     def get(self,request):
         user_id1=self.request.user.id
-        shipping = BillingAddress.objects.filter(user_id_id=user_id1)
-        modifiedProduct = []
-        for eachProd1 in shipping:
-            newrel = {
-                "id": eachProd1.id,
-                "user_id": eachProd1.user_id_id,
-                "pincode": eachProd1.pincode,
-                "flat": eachProd1.flat,
-                "address": eachProd1.address,
-                "location": eachProd1.location,
-                "landmark": eachProd1.landmark,
-                "city": eachProd1.city,
-                "district": eachProd1.district,
-                "state": eachProd1.state,
-            }
-
-            modifiedProduct.append(newrel)
-        return Response(modifiedProduct) 
+        shipping = BillingAddress.objects.filter(user_id_id=user_id1).first()
+        newrel = {
+            "id": shipping.id,
+            "user_id": shipping.user_id_id,
+            "pincode": shipping.pincode,
+            "flat": shipping.flat,
+            "address": shipping.address,
+            "landmark": shipping.location,
+            "city": shipping.city,
+            "district": shipping.district,
+            "state": shipping.state,
+        }
+        return Response(newrel) 
 class userListPincode(views.APIView):
     def get(self,request,pincode):
         userDetails = []
