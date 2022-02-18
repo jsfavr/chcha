@@ -912,7 +912,7 @@ class SingleProductUserAPIView(views.APIView):
 class NewArrivalAPIView(views.APIView):
     def get(self, request):
         product = Product.objects.filter(
-            adminActiveStatus=1, vendorActiveStatus=1).order_by('-id')[:50]
+            adminActiveStatus=1, vendorActiveStatus=1).order_by('-id')[:8]
         modifiedrel = []
         for eachrel in product:
             det = Product.objects.filter(id=eachrel.id)
@@ -968,7 +968,7 @@ class AllShopAPIView(views.APIView):
 class MostViewAPIView(views.APIView):
     def get(self, request):
         product = Product.objects.filter(
-            adminActiveStatus=1, vendorActiveStatus=1).order_by('-viewCount')[:10]
+            adminActiveStatus=1, vendorActiveStatus=1).order_by('-viewCount')[:8]
         modifiedrel = []
         for eachrel in product:
             det = Product.objects.filter(id=eachrel.id)
@@ -994,7 +994,7 @@ class MostViewAPIView(views.APIView):
 
 class MostRattedAPIView(views.APIView):
     def get(self, request):
-        product = Product.objects.all().order_by('-avgReview')[:10]
+        product = Product.objects.all().order_by('-avgReview')[:8]
         modifiedrel = []
         for eachrel in product:
             det = Product.objects.filter(id=eachrel.id)
@@ -1024,10 +1024,10 @@ class MostRattedAPIView(views.APIView):
 class TopProductAPIView(views.APIView):
     def get(self, request):
         booking = Product.objects.filter(
-            adminActiveStatus=1, vendorActiveStatus=1).order_by('-orderCount')[:13]
+            adminActiveStatus=1, vendorActiveStatus=1).order_by('-orderCount')[:8]
         modifiedrel = []
         for book in booking:
-            product = Product.objects.filter(id=book.id)[:13]
+            product = Product.objects.filter(id=book.id)[:8]
             for eachrel in product:
                 det = Product.objects.filter(id=eachrel.id)
                 image122 = ProductImage.objects.filter(productID_id=eachrel.id)
