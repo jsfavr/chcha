@@ -105,55 +105,48 @@ class findDeliveryChargeAPIView(views.APIView):
     def post(self, request):
         inputs = request.data
         user_id = self.request.user.id
-        ship = ShippingAddress.objects.filter(id=inputs['address_id'])
-        for eachwallet in ship:
-            pincode = eachwallet.pincode
+        ship = ShippingAddress.objects.filter(id=inputs['address_id']).first()
+        pincode = ship.pincode
+        if pincode: 
+            delivery = DeliveryPincode.objects.filter(
+                pincode=pincode, activeStatus=1)
+            if len(delivery) > 0:
+                for eachdelivery in delivery:
+                    if eachdelivery.minPrice < inputs['payble_amount']:
+                        deliveryCharge = 0
+                    else:
+                        deliveryCharge = eachdelivery.deliveryCharge
 
-            address = {
-                'name': eachwallet.name,
-                'email': self.request.user.email,
-                'phone': eachwallet.phone,
-                'address': eachwallet.address,
-                'city': eachwallet.city,
-                'state': eachwallet.state,
-            }
-
-        delivery = DeliveryPincode.objects.filter(
-            pincode=pincode, activeStatus=1)
-        if len(delivery) > 0:
-            for eachdelivery in delivery:
-                if eachdelivery.minPrice < inputs['payble_amount']:
-                    deliveryCharge = 0
-                else:
-                    deliveryCharge = eachdelivery.deliveryCharge
-
+                    details = {
+                        'pincode': eachdelivery.pincode,
+                        'payble_amount': inputs['payble_amount'],
+                        'delivery_charge': deliveryCharge,
+                        'cod': eachdelivery.cod
+                    }
+                    status = {
+                        'msg': 'Pincode Serviceable',
+                        'code': 1,
+                    }
+            else:
                 details = {
-                    'pincode': eachdelivery.pincode,
+                    'pincode': '',
                     'payble_amount': inputs['payble_amount'],
-                    'delivery_charge': deliveryCharge,
-                    'cod': eachdelivery.cod
+                    'delivery_charge': 0,
                 }
                 status = {
-                    'msg': 'Pincode Serviceable',
+                    'msg': 'Pincode not Serviceable',
                     'code': 1,
                 }
-        else:
-            details = {
-                'pincode': '',
-                'payble_amount': inputs['payble_amount'],
-                'delivery_charge': 0,
-            }
-            status = {
-                'msg': 'Pincode not Serviceable',
-                'code': 1,
-            }
 
-        response = {
-            'status': status,
-            'details': details,
-            'address': address,
-        }
-        return Response(response)
+            response = {
+                'status': status,
+                'details': details, 
+            }
+            
+            return Response(response)
+        else:
+            return Response({'msg':'Address colud not find'},status=status.HTTP_400_BAD_REQUEST)
+
 
 
 class findCouponAvailabilityAPIView(views.APIView):
