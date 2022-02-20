@@ -244,7 +244,6 @@ class orderSubmitAPIView(views.APIView):
         phone_no = self.request.user.phone
         email = self.request.user.email
         name = self.request.user.name
-        product_id = int(inputs['product_id'])
         grand_total = int(inputs['total_payble_value'])
         sub_total = int(inputs['cart_total'])
         address_id = inputs['address_id']
@@ -259,17 +258,7 @@ class orderSubmitAPIView(views.APIView):
         use_wallet_point = wallet_point
         use_delivery_charge = delivery_charge
         use_coupon_discount = coupon_discount
-        usePercentage=100
-        print('walletAmount----'+str(inputs['wallet_amount']))
-        print('wallet_point----'+str(inputs['wallet_point']))
-        print('delivery_charge----'+str(inputs['shipping_charge']))
-        print('coupon_discount----'+str(inputs['coupon_discount']))
-        print('----------------------------')
-
-        if product_id != 0:
-            productList = NonCart.objects.filter(user_id_id=user_id)
-        else:
-            productList = Cart.objects.filter(user_id_id=user_id)
+        productList = Cart.objects.filter(user_id_id=user_id)
         if len(productList) != 0:
             booking_payment = BookingPayment.objects.create(
                 grandTotal=grand_total,
@@ -483,12 +472,9 @@ class orderSubmitAPIView(views.APIView):
                 InventoryTransaction.objects.create(product_id_id=productLists.product_id_id, quantity=productLists.quantity, remarks='Booking',
                                                     transactionType='DEBIT', transactionID=ORDER_ID, afterTransactionQuantity=availableStock-productLists.quantity)
 
-            if product_id != 0:
-                productList = NonCart.objects.filter(
-                    user_id_id=user_id).delete()
-            else:
-                productList = Cart.objects.filter(
-                    user_id_id=user_id).delete()
+           
+            productList = Cart.objects.filter(
+                user_id_id=user_id).delete()
 
             if wallet_amount != 0:
                 walletGet = Wallet.objects.filter(user_id_id=user_id)
