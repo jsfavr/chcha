@@ -251,7 +251,10 @@ class orderSubmitAPIView(views.APIView):
         payment_type = inputs['payment_type']
         delivery_charge = int(inputs['shipping_charge'])
         coupon_discount = int(inputs['coupon_discount'])
-        coupon_code = inputs['coupon_code']
+        coupon_code = ''
+        if(inputs['coupon_code']):
+            coupon_code = inputs['coupon_code']
+            
         productList = Cart.objects.filter(user_id_id=user_id)
         if len(productList) != 0:
             booking_payment = BookingPayment.objects.create(
@@ -260,8 +263,8 @@ class orderSubmitAPIView(views.APIView):
                 razorpayPaymentId=razorpay_payment_id,
                 paymentType=payment_type,
                 deliveryCharge=delivery_charge,
-                walletAmount=wallet_amount,
-                walletPoint=wallet_point,
+                walletAmount=0,
+                walletPoint=0,
                 couponDiscount=coupon_discount,
                 couponCode=coupon_code,
                 shippingAddressId_id=address_id,
@@ -270,7 +273,6 @@ class orderSubmitAPIView(views.APIView):
             booking_payment.save()
             booking_payment_id = booking_payment.id
             for productLists in productList:
-                totalProduct=totalProduct-1
                 product = Product.objects.filter(
                     id=productLists.product_id_id)
 
