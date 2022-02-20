@@ -238,287 +238,286 @@ class orderSubmitAPIView(views.APIView):
     permission_classes = [permissions.IsAuthenticated, IsOwner]
 
     def post(self, request):
-        try:
-            inputs = request.data
-            user_id = self.request.user.id
-            user_details = User.objects.filter(id=user_id).first()
-            phone_no = self.request.user.phone
-            email = self.request.user.email
-            name = self.request.user.name
-            product_id = int(inputs['product_id'])
-            grand_total = int(inputs['total_payble_value'])
-            sub_total = int(inputs['cart_total'])
-            address_id = inputs['address_id']
-            razorpay_payment_id = inputs['razorpay_payment_id']
-            payment_type = inputs['payment_type']
-            wallet_amount = int(inputs['wallet_amount'])
-            wallet_point = int(inputs['wallet_point'])
-            delivery_charge = int(inputs['shipping_charge'])
-            coupon_discount = int(inputs['coupon_discount'])
-            coupon_code = inputs['coupon_code']
-            use_wallet_amount = wallet_amount
-            use_wallet_point = wallet_point
-            use_delivery_charge = delivery_charge
-            use_coupon_discount = coupon_discount
-            usePercentage=100
-            print('walletAmount----'+str(inputs['wallet_amount']))
-            print('wallet_point----'+str(inputs['wallet_point']))
-            print('delivery_charge----'+str(inputs['shipping_charge']))
-            print('coupon_discount----'+str(inputs['coupon_discount']))
-            print('----------------------------')
+        inputs = request.data
+        user_id = self.request.user.id
+        user_details = User.objects.filter(id=user_id).first()
+        phone_no = self.request.user.phone
+        email = self.request.user.email
+        name = self.request.user.name
+        product_id = int(inputs['product_id'])
+        grand_total = int(inputs['total_payble_value'])
+        sub_total = int(inputs['cart_total'])
+        address_id = inputs['address_id']
+        razorpay_payment_id = inputs['razorpay_payment_id']
+        payment_type = inputs['payment_type']
+        wallet_amount = int(inputs['wallet_amount'])
+        wallet_point = int(inputs['wallet_point'])
+        delivery_charge = int(inputs['shipping_charge'])
+        coupon_discount = int(inputs['coupon_discount'])
+        coupon_code = inputs['coupon_code']
+        use_wallet_amount = wallet_amount
+        use_wallet_point = wallet_point
+        use_delivery_charge = delivery_charge
+        use_coupon_discount = coupon_discount
+        usePercentage=100
+        print('walletAmount----'+str(inputs['wallet_amount']))
+        print('wallet_point----'+str(inputs['wallet_point']))
+        print('delivery_charge----'+str(inputs['shipping_charge']))
+        print('coupon_discount----'+str(inputs['coupon_discount']))
+        print('----------------------------')
 
-            if product_id != 0:
-                productList = NonCart.objects.filter(user_id_id=user_id)
-            else:
-                productList = Cart.objects.filter(user_id_id=user_id)
-            if len(productList) != 0:
-                booking_payment = BookingPayment.objects.create(
-                    grandTotal=grand_total,
-                    subTotal=sub_total,
-                    razorpayPaymentId=razorpay_payment_id,
-                    paymentType=payment_type,
-                    deliveryCharge=delivery_charge,
-                    walletAmount=wallet_amount,
-                    walletPoint=wallet_point,
-                    couponDiscount=coupon_discount,
+        if product_id != 0:
+            productList = NonCart.objects.filter(user_id_id=user_id)
+        else:
+            productList = Cart.objects.filter(user_id_id=user_id)
+        if len(productList) != 0:
+            booking_payment = BookingPayment.objects.create(
+                grandTotal=grand_total,
+                subTotal=sub_total,
+                razorpayPaymentId=razorpay_payment_id,
+                paymentType=payment_type,
+                deliveryCharge=delivery_charge,
+                walletAmount=wallet_amount,
+                walletPoint=wallet_point,
+                couponDiscount=coupon_discount,
+                couponCode=coupon_code,
+                shippingAddressId_id=address_id,
+                user_id_id=user_id
+            )
+            booking_payment.save()
+            booking_payment_id = booking_payment.id
+            # booking_payment_id = 555
+            totalProduct=len(productList)
+            for productLists in productList:
+                totalProduct=totalProduct-1
+                product = Product.objects.filter(
+                    id=productLists.product_id_id)
+
+                for eachProduct in product:
+                    perProductSellingPrice = eachProduct.sellingPrice
+                    availableStock = eachProduct.availableStock
+                    orderCount = eachProduct.orderCount
+                    sub_cat = SubCategory.objects.filter(
+                        id=eachProduct.sub_cat_id_id)
+                    for eachsub_cat in sub_cat:
+                        gstPercentage = eachsub_cat.gst
+
+                gstValue = (
+                    (perProductSellingPrice*gstPercentage)/100)
+                useProductValue=round(perProductSellingPrice+gstValue)* productLists.quantity
+
+
+                Percentage1 = math.ceil(((round(perProductSellingPrice+gstValue)
+                                        * productLists.quantity)*100)/sub_total)
+                if Percentage1>usePercentage:
+                    Percentage=usePercentage
+                    usePercentage=0
+                else:
+                    Percentage=Percentage1
+                    usePercentage=usePercentage-Percentage1
+                
+
+                if delivery_charge != 0 and useProductValue!=0:
+                    if math.ceil((delivery_charge*Percentage)/100)<useProductValue:
+                        if math.ceil((delivery_charge*Percentage)/100) > use_delivery_charge:
+                            DeliveryCharge = use_delivery_charge
+                            use_delivery_charge = 0
+                        else:
+                            DeliveryCharge = math.ceil(
+                                (delivery_charge*Percentage)/100)
+                            use_delivery_charge = use_delivery_charge - \
+                                math.ceil((delivery_charge*Percentage)/100)
+                        useProductValue=useProductValue+DeliveryCharge
+                    else:
+                        DeliveryCharge = useProductValue
+                        use_delivery_charge = use_delivery_charge - useProductValue
+                        useProductValue=0
+                else:
+                    DeliveryCharge = 0
+
+                if wallet_amount != 0 and useProductValue!=0:
+                    if math.ceil((wallet_amount*Percentage)/100)<useProductValue:
+                        if math.ceil((wallet_amount*Percentage)/100) > use_wallet_amount:
+                            walletAmount = use_wallet_amount
+                            use_wallet_amount = 0
+                        else:
+                            walletAmount = math.ceil(
+                                (wallet_amount*Percentage)/100)
+                            use_wallet_amount = use_wallet_amount - \
+                                math.ceil((wallet_amount*Percentage)/100)
+                        useProductValue=useProductValue-walletAmount
+                    else:
+                        walletAmount = useProductValue
+                        use_wallet_amount = use_wallet_amount - useProductValue
+                        useProductValue=0
+                else:
+                    walletAmount = 0
+
+
+
+                if wallet_point != 0 and useProductValue!=0:
+                    if math.ceil((wallet_point*Percentage)/100)<useProductValue:
+                        if math.ceil((wallet_point*Percentage)/100) > use_wallet_point:
+                            walletPoint = use_wallet_point
+                            use_wallet_point = 0
+                        else:
+                            walletPoint = math.ceil(
+                                (wallet_point*Percentage)/100)
+                            use_wallet_point = use_wallet_point - \
+                                math.ceil((wallet_point*Percentage)/100)
+                        useProductValue=useProductValue-walletPoint
+                    else:
+                        walletPoint = useProductValue
+                        use_wallet_point = use_wallet_point - useProductValue
+                        useProductValue=0
+                else:
+                    walletPoint = 0
+
+            
+
+                if coupon_discount != 0 and useProductValue!=0:
+                    if math.ceil((delivery_charge*Percentage)/100)<useProductValue:
+                        if math.ceil((coupon_discount*Percentage)/100) > use_coupon_discount:
+                            couponDiscount = use_coupon_discount
+                            use_coupon_discount = 0
+                        else:
+                            couponDiscount = math.ceil(
+                                (coupon_discount*Percentage)/100)
+                            use_coupon_discount = use_coupon_discount - \
+                                math.ceil((coupon_discount*Percentage)/100)
+                        useProductValue=useProductValue-couponDiscount
+                    else:
+                        couponDiscount = useProductValue
+                        use_coupon_discount = use_coupon_discount - useProductValue
+                        useProductValue=0
+                else:
+                    couponDiscount = 0
+            
+
+
+                
+            
+                if useProductValue>use_delivery_charge and useProductValue!=0:
+                    DeliveryCharge=DeliveryCharge+use_delivery_charge
+                    useProductValue=useProductValue-use_delivery_charge
+                    use_delivery_charge=0
+                else:
+                    DeliveryCharge=DeliveryCharge+useProductValue
+                    use_delivery_charge=use_delivery_charge-useProductValue
+                    useProductValue=0
+
+                if useProductValue>use_wallet_amount and useProductValue!=0:
+                    walletAmount=walletAmount+use_wallet_amount
+                    useProductValue=useProductValue-use_wallet_amount
+                    use_wallet_amount=0
+                else:
+                    walletAmount=walletAmount+useProductValue
+                    use_wallet_amount=use_wallet_amount-useProductValue
+                    useProductValue=0
+                    
+                if useProductValue>use_wallet_point and useProductValue!=0:
+                    walletPoint=walletPoint+use_wallet_point
+                    useProductValue=useProductValue-use_wallet_point
+                    use_wallet_point=0
+                else:
+                    walletPoint=walletPoint+useProductValue
+                    use_wallet_point=use_wallet_point-useProductValue
+                    useProductValue=0
+                
+                
+
+                if useProductValue>use_coupon_discount and useProductValue!=0:
+                    couponDiscount=couponDiscount+use_coupon_discount
+                    useProductValue=useProductValue-use_coupon_discount
+                    use_coupon_discount=0
+                else:
+                    couponDiscount=couponDiscount+useProductValue
+                    use_coupon_discount=use_coupon_discount-useProductValue
+                    useProductValue=0
+    
+                
+                    
+                print('Percentage----'+str((Percentage)))
+                print('walletAmount----'+str(walletAmount))
+                print('wallet_point----'+str(walletPoint))
+                print('delivery_charge----'+str(DeliveryCharge))
+                print('coupon_discount----'+str(couponDiscount))
+                print('Remaning_walletAmount----'+str(use_wallet_amount))
+                print('Remaning_wallet_point----'+str(use_wallet_point))
+                print('Remaning_delivery_charge----' +
+                        str(use_delivery_charge))
+                print('Remaning_coupon_discount----' +
+                        str(use_coupon_discount))
+                print('Remaning_product_value----' +
+                        str(useProductValue))
+                print(".............................................")
+            
+                print('----------------------------')
+                    
+                productDetails = Product.objects.filter(
+                    id=productLists.product_id_id).first()
+                ORDER_ID = inputs['order_id'] + \
+                    str(productDetails.user_id_id)        
+
+                Booking.objects.create(
+                    product_id_id=productLists.product_id_id,
+                    quantity=productLists.quantity,
+                    productSellingPrice=perProductSellingPrice,
+                    productGST=gstValue,
+                    productPayablePrice=(round(
+                        perProductSellingPrice+gstValue)*productLists.quantity),
+                    orderID=ORDER_ID,
+                    deliveryCharge=DeliveryCharge,
+                    walletAmount=walletAmount,
+                    walletPoint=walletPoint,
+                    couponDiscount=couponDiscount,
                     couponCode=coupon_code,
+                    paymentType=payment_type,
+                    razorpayPaymentId=razorpay_payment_id,
                     shippingAddressId_id=address_id,
+                    bookingPaymentID_id=booking_payment_id,
                     user_id_id=user_id
                 )
-                booking_payment.save()
-                booking_payment_id = booking_payment.id
-                # booking_payment_id = 555
-                totalProduct=len(productList)
-                for productLists in productList:
-                    totalProduct=totalProduct-1
-                    product = Product.objects.filter(
-                        id=productLists.product_id_id)
+                Product.objects.filter(id=productLists.product_id_id).update(
+                    availableStock=availableStock-productLists.quantity, orderCount=orderCount+1)
+                InventoryTransaction.objects.create(product_id_id=productLists.product_id_id, quantity=productLists.quantity, remarks='Booking',
+                                                    transactionType='DEBIT', transactionID=ORDER_ID, afterTransactionQuantity=availableStock-productLists.quantity)
 
-                    for eachProduct in product:
-                        perProductSellingPrice = eachProduct.sellingPrice
-                        availableStock = eachProduct.availableStock
-                        orderCount = eachProduct.orderCount
-                        sub_cat = SubCategory.objects.filter(
-                            id=eachProduct.sub_cat_id_id)
-                        for eachsub_cat in sub_cat:
-                            gstPercentage = eachsub_cat.gst
-
-                    gstValue = (
-                        (perProductSellingPrice*gstPercentage)/100)
-                    useProductValue=round(perProductSellingPrice+gstValue)* productLists.quantity
-
-
-                    Percentage1 = math.ceil(((round(perProductSellingPrice+gstValue)
-                                            * productLists.quantity)*100)/sub_total)
-                    if Percentage1>usePercentage:
-                        Percentage=usePercentage
-                        usePercentage=0
-                    else:
-                        Percentage=Percentage1
-                        usePercentage=usePercentage-Percentage1
-                    
-
-                    if delivery_charge != 0 and useProductValue!=0:
-                        if math.ceil((delivery_charge*Percentage)/100)<useProductValue:
-                            if math.ceil((delivery_charge*Percentage)/100) > use_delivery_charge:
-                                DeliveryCharge = use_delivery_charge
-                                use_delivery_charge = 0
-                            else:
-                                DeliveryCharge = math.ceil(
-                                    (delivery_charge*Percentage)/100)
-                                use_delivery_charge = use_delivery_charge - \
-                                    math.ceil((delivery_charge*Percentage)/100)
-                            useProductValue=useProductValue+DeliveryCharge
-                        else:
-                            DeliveryCharge = useProductValue
-                            use_delivery_charge = use_delivery_charge - useProductValue
-                            useProductValue=0
-                    else:
-                        DeliveryCharge = 0
-
-                    if wallet_amount != 0 and useProductValue!=0:
-                        if math.ceil((wallet_amount*Percentage)/100)<useProductValue:
-                            if math.ceil((wallet_amount*Percentage)/100) > use_wallet_amount:
-                                walletAmount = use_wallet_amount
-                                use_wallet_amount = 0
-                            else:
-                                walletAmount = math.ceil(
-                                    (wallet_amount*Percentage)/100)
-                                use_wallet_amount = use_wallet_amount - \
-                                    math.ceil((wallet_amount*Percentage)/100)
-                            useProductValue=useProductValue-walletAmount
-                        else:
-                            walletAmount = useProductValue
-                            use_wallet_amount = use_wallet_amount - useProductValue
-                            useProductValue=0
-                    else:
-                        walletAmount = 0
-
-
-
-                    if wallet_point != 0 and useProductValue!=0:
-                        if math.ceil((wallet_point*Percentage)/100)<useProductValue:
-                            if math.ceil((wallet_point*Percentage)/100) > use_wallet_point:
-                                walletPoint = use_wallet_point
-                                use_wallet_point = 0
-                            else:
-                                walletPoint = math.ceil(
-                                    (wallet_point*Percentage)/100)
-                                use_wallet_point = use_wallet_point - \
-                                    math.ceil((wallet_point*Percentage)/100)
-                            useProductValue=useProductValue-walletPoint
-                        else:
-                            walletPoint = useProductValue
-                            use_wallet_point = use_wallet_point - useProductValue
-                            useProductValue=0
-                    else:
-                        walletPoint = 0
-
-                
-
-                    if coupon_discount != 0 and useProductValue!=0:
-                        if math.ceil((delivery_charge*Percentage)/100)<useProductValue:
-                            if math.ceil((coupon_discount*Percentage)/100) > use_coupon_discount:
-                                couponDiscount = use_coupon_discount
-                                use_coupon_discount = 0
-                            else:
-                                couponDiscount = math.ceil(
-                                    (coupon_discount*Percentage)/100)
-                                use_coupon_discount = use_coupon_discount - \
-                                    math.ceil((coupon_discount*Percentage)/100)
-                            useProductValue=useProductValue-couponDiscount
-                        else:
-                            couponDiscount = useProductValue
-                            use_coupon_discount = use_coupon_discount - useProductValue
-                            useProductValue=0
-                    else:
-                        couponDiscount = 0
-                
-
-
-                    
-                
-                    if useProductValue>use_delivery_charge and useProductValue!=0:
-                        DeliveryCharge=DeliveryCharge+use_delivery_charge
-                        useProductValue=useProductValue-use_delivery_charge
-                        use_delivery_charge=0
-                    else:
-                        DeliveryCharge=DeliveryCharge+useProductValue
-                        use_delivery_charge=use_delivery_charge-useProductValue
-                        useProductValue=0
-
-                    if useProductValue>use_wallet_amount and useProductValue!=0:
-                        walletAmount=walletAmount+use_wallet_amount
-                        useProductValue=useProductValue-use_wallet_amount
-                        use_wallet_amount=0
-                    else:
-                        walletAmount=walletAmount+useProductValue
-                        use_wallet_amount=use_wallet_amount-useProductValue
-                        useProductValue=0
-                        
-                    if useProductValue>use_wallet_point and useProductValue!=0:
-                        walletPoint=walletPoint+use_wallet_point
-                        useProductValue=useProductValue-use_wallet_point
-                        use_wallet_point=0
-                    else:
-                        walletPoint=walletPoint+useProductValue
-                        use_wallet_point=use_wallet_point-useProductValue
-                        useProductValue=0
-                    
-                    
-
-                    if useProductValue>use_coupon_discount and useProductValue!=0:
-                        couponDiscount=couponDiscount+use_coupon_discount
-                        useProductValue=useProductValue-use_coupon_discount
-                        use_coupon_discount=0
-                    else:
-                        couponDiscount=couponDiscount+useProductValue
-                        use_coupon_discount=use_coupon_discount-useProductValue
-                        useProductValue=0
-        
-                    
-                        
-                    print('Percentage----'+str((Percentage)))
-                    print('walletAmount----'+str(walletAmount))
-                    print('wallet_point----'+str(walletPoint))
-                    print('delivery_charge----'+str(DeliveryCharge))
-                    print('coupon_discount----'+str(couponDiscount))
-                    print('Remaning_walletAmount----'+str(use_wallet_amount))
-                    print('Remaning_wallet_point----'+str(use_wallet_point))
-                    print('Remaning_delivery_charge----' +
-                            str(use_delivery_charge))
-                    print('Remaning_coupon_discount----' +
-                            str(use_coupon_discount))
-                    print('Remaning_product_value----' +
-                            str(useProductValue))
-                    print(".............................................")
-                
-                    print('----------------------------')
-                        
-                    productDetails = Product.objects.filter(
-                        id=productLists.product_id_id).first()
-                    ORDER_ID = inputs['order_id'] + \
-                        str(productDetails.user_id_id)        
-
-                    Booking.objects.create(
-                        product_id_id=productLists.product_id_id,
-                        quantity=productLists.quantity,
-                        productSellingPrice=perProductSellingPrice,
-                        productGST=gstValue,
-                        productPayablePrice=(round(
-                            perProductSellingPrice+gstValue)*productLists.quantity),
-                        orderID=ORDER_ID,
-                        deliveryCharge=DeliveryCharge,
-                        walletAmount=walletAmount,
-                        walletPoint=walletPoint,
-                        couponDiscount=couponDiscount,
-                        couponCode=coupon_code,
-                        paymentType=payment_type,
-                        razorpayPaymentId=razorpay_payment_id,
-                        shippingAddressId_id=address_id,
-                        bookingPaymentID_id=booking_payment_id,
-                        user_id_id=user_id
-                    )
-                    Product.objects.filter(id=productLists.product_id_id).update(
-                        availableStock=availableStock-productLists.quantity, orderCount=orderCount+1)
-                    InventoryTransaction.objects.create(product_id_id=productLists.product_id_id, quantity=productLists.quantity, remarks='Booking',
-                                                        transactionType='DEBIT', transactionID=ORDER_ID, afterTransactionQuantity=availableStock-productLists.quantity)
-
-                if product_id != 0:
-                    productList = NonCart.objects.filter(
-                        user_id_id=user_id).delete()
-                else:
-                    productList = Cart.objects.filter(
-                        user_id_id=user_id).delete()
-
-                if wallet_amount != 0:
-                    walletGet = Wallet.objects.filter(user_id_id=user_id)
-                    for eachWallet in walletGet:
-                        wallatBalance = eachWallet.amount
-                    updateBalance = eachWallet.amount-wallet_amount
-                    walletGet = Wallet.objects.filter(
-                        user_id_id=user_id).update(amount=updateBalance)
-                    WalletTransaction.objects.create(
-                        transactionAmount=wallet_amount, afterTransactionAmount=updateBalance, remarks='Booking', transactionType='DEBIT', user_id_id=user_id)
-                if wallet_point != 0:
-                    walletGet1 = Wallet.objects.filter(user_id_id=user_id)
-                    for eachWallet1 in walletGet1:
-                        wallatBalance1 = eachWallet1.point
-                    updateBalance1 = eachWallet1.point-wallet_point
-                    Wallet.objects.filter(user_id_id=user_id).update(
-                        point=updateBalance1)
-                    WalletTransaction.objects.create(transactionAmount=wallet_point, afterTransactionAmount=updateBalance1,
-                                                    remarks='Booking', transactionType='DEBIT', user_id_id=user_id, walletType='REWARDS')
-
-                newrel = {
-                    'status': 'Booking Successfull',
-                    'code': 1,
-                }
+            if product_id != 0:
+                productList = NonCart.objects.filter(
+                    user_id_id=user_id).delete()
             else:
-                newrel = {
-                    'status': 'No item found',
-                    'code': 2,
-                }
+                productList = Cart.objects.filter(
+                    user_id_id=user_id).delete()
+
+            if wallet_amount != 0:
+                walletGet = Wallet.objects.filter(user_id_id=user_id)
+                for eachWallet in walletGet:
+                    wallatBalance = eachWallet.amount
+                updateBalance = eachWallet.amount-wallet_amount
+                walletGet = Wallet.objects.filter(
+                    user_id_id=user_id).update(amount=updateBalance)
+                WalletTransaction.objects.create(
+                    transactionAmount=wallet_amount, afterTransactionAmount=updateBalance, remarks='Booking', transactionType='DEBIT', user_id_id=user_id)
+            if wallet_point != 0:
+                walletGet1 = Wallet.objects.filter(user_id_id=user_id)
+                for eachWallet1 in walletGet1:
+                    wallatBalance1 = eachWallet1.point
+                updateBalance1 = eachWallet1.point-wallet_point
+                Wallet.objects.filter(user_id_id=user_id).update(
+                    point=updateBalance1)
+                WalletTransaction.objects.create(transactionAmount=wallet_point, afterTransactionAmount=updateBalance1,
+                                                remarks='Booking', transactionType='DEBIT', user_id_id=user_id, walletType='REWARDS')
+
+            newrel = {
+                'status': 'Booking Successfull',
+                'code': 1,
+            }
+        else:
+            newrel = {
+                'status': 'No item found',
+                'code': 2,
+            }
             sms_body = 'Booking Successful : Thank you for ordering with Crowd, Your order is successfully placed. We will notify you as soon as when your order is ready.'
 
             # data = {
@@ -532,9 +531,5 @@ class orderSubmitAPIView(views.APIView):
 
             # template_id = '1207161779674247058'
             # smsSend(phone_no, sms_body, template_id)
-        except:
-            newrel = {
-                'status': 'Booking Unsuccessfull',
-                'code': 0,
-            }
+        
         return Response(newrel)
