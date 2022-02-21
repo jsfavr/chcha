@@ -129,7 +129,7 @@ class userBookingAPIView(views.APIView):
                 'brand': Brand,
                 'image': str(image),
                 'mrp': mrp,
-                'sellingPrice': round(sellingPrice+((sellingPrice*gst)/100))
+                'sellingPrice': round(sellingPrice)
 
             }
             add = ShippingAddress.objects.filter(
@@ -491,6 +491,7 @@ class vendorsearchBookingAPIView(views.APIView):
                         ProductCode = eachproduct.productCode
                         mrp = eachproduct.mrp
                         sellingPrice = eachproduct.sellingPrice
+                        withoutGstPrice = eachproduct.wihoutgstprice
                         image122 = ProductImage.objects.filter(
                             productID_id=eachproduct.id)
                         for eachimage in image122:
@@ -512,8 +513,8 @@ class vendorsearchBookingAPIView(views.APIView):
                         'brand': Brand,
                         'image': str(image),
                         'mrp': mrp,
-                        'sellingPrice': round(sellingPrice+((sellingPrice*gst)/100)),
-                        'comm': round((sellingPrice*comm)/100)
+                        'sellingPrice': round(sellingPrice),
+                        'comm': round((withoutGstPrice*comm)/100)
                     }
                     add = ShippingAddress.objects.filter(
                         id=eachbooking.shippingAddressId_id)

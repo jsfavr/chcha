@@ -54,9 +54,8 @@ class checkoutItemsAPIView(views.APIView):
                 subcatdel = SubCategory.objects.filter(
                     id=eachProd1.sub_cat_id_id)
                 for eachsubcatdel in subcatdel:
-                    price = eachProd1.sellingPrice + \
-                        (eachProd1.sellingPrice*eachsubcatdel.gst)/100
-                    gst = (eachProd1.sellingPrice *
+                    price = eachProd1.sellingPrice 
+                    gst = (eachProd1.wihoutgstprice *
                            eachsubcatdel.gst)/100
 
                 brand = ProductBrand.objects.filter(
@@ -277,7 +276,7 @@ class orderSubmitAPIView(views.APIView):
                     id=productLists.product_id_id)
 
                 for eachProduct in product:
-                    perProductSellingPrice = eachProduct.sellingPrice
+                    perProductSellingPrice = eachProduct.wihoutgstprice
                     availableStock = eachProduct.availableStock
                     orderCount = eachProduct.orderCount
                     sub_cat = SubCategory.objects.filter(
@@ -296,7 +295,7 @@ class orderSubmitAPIView(views.APIView):
                     productSellingPrice=perProductSellingPrice,
                     productGST=gstValue,
                     productPayablePrice=(round(
-                        perProductSellingPrice+gstValue)*productLists.quantity),
+                        perProductSellingPrice)*productLists.quantity),
                     orderID=ORDER_ID,
                     deliveryCharge=delivery_charge,
                     walletAmount=0,
