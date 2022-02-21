@@ -7,11 +7,4 @@ urlpatterns = [
     path('findCouponAvailability/', views.findCouponAvailabilityAPIView.as_view(), name='findCouponAvailability'),
     path('paymentCapture/', views.paymentCaptureAPIView.as_view(), name='paymentCapture'),
     path('orderSubmit/', views.orderSubmitAPIView.as_view(), name='orderSubmit'),
-
-
-
-
-   
-
-
 ]

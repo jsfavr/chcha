@@ -683,7 +683,7 @@ class ProductaddAPI(views.APIView):
         inputs = request.data
         user_id = self.request.user.id
         product_data = Product.objects.create(productCode=inputs['productCode'], skuCode=inputs['skuCode'], productName=inputs['productName'], size=inputs['size'], color=inputs['color'], mrp=inputs['mrp'], sellingPrice=inputs['sellingPrice'], totalStock=inputs['totalStock'], availableStock=inputs['availableStock'],
-                                              cat_id_id=inputs['cat_id_id'], productBrandID_id=inputs['productBrandID_id'], productGroupID_id=inputs['productGroupID_id'], sub_cat_id_id=inputs['sub_cat_id_id'], sub_sub_cat_id_id=inputs['sub_sub_cat_id_id'], user_id_id=user_id, productDescription=inputs['productDescription'], contryOfOrigin=inputs['contryOfOrigin'])
+                                              cat_id_id=inputs['cat_id_id'], productBrandID_id=inputs['productBrandID_id'], productGroupID_id=inputs['productGroupID_id'], sub_cat_id_id=inputs['sub_cat_id_id'], sub_sub_cat_id_id=inputs['sub_sub_cat_id_id'], user_id_id=user_id, productDescription=inputs['productDescription'], contryOfOrigin=inputs['contryOfOrigin'],wihoutgstprice=inputs['wihoutgstprice'])
         product_data.save()
         pid = product_data.id
         product_image_data = ProductImage.objects.create(

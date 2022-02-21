@@ -41,7 +41,8 @@ class Product(models.Model):
     availableStock = models.IntegerField(default=0)
     orderCount = models.IntegerField(default=0)
     contryOfOrigin = models.CharField(max_length=50, null=True, blank=True)
-
+    wihoutgstprice = models.DecimalField(
+        default=1.0, decimal_places=10, max_digits=20)
 
 class ProductImage(models.Model):
     productID = models.ForeignKey(Product, on_delete=models.CASCADE)
