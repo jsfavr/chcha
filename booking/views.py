@@ -901,15 +901,13 @@ class vendorWiseBookingDetails(views.APIView):
                     'mrp': mrp,
                     'size': size,
                     'color': color,
-                    'sellingPrice': round(sellingPrice+((sellingPrice*gst)/100)),
+                    'sellingPrice': round(sellingPrice),
                     'cancelReason': reasonArr,
                     'returnReason': reasonArr2
 
 
                 }
-                productSellingPrice = productSellingPrice + \
-                   round(eachBooking.productSellingPrice +
-                     eachBooking.productGST)*eachBooking.quantity
+                productSellingPrice = round(eachBooking.productSellingPrice * eachBooking.quantity)
                 couponDiscount = couponDiscount+eachBooking.couponDiscount
                 walletAmount = walletAmount+eachBooking.walletAmount
                 walletPoint = walletPoint+eachBooking.walletPoint
@@ -1071,11 +1069,9 @@ class InvoiceBookingDetails(views.APIView):
                     'mrp': mrp,
                     'size': size,
                     'color': color,
-                    'sellingPrice': round(sellingPrice+((sellingPrice*gst)/100))
+                    'sellingPrice': round(sellingPrice)
                 }
-                productSellingPrice = productSellingPrice + \
-                    (eachBooking.productSellingPrice +
-                     eachBooking.productGST)*eachBooking.quantity
+                productSellingPrice = round(productSellingPrice*eachBooking.quantity)
                 couponDiscount = couponDiscount+eachBooking.couponDiscount
                 walletAmount = walletAmount+eachBooking.walletAmount
                 walletPoint = walletPoint+eachBooking.walletPoint
@@ -1674,7 +1670,7 @@ class SearchBookingAPIView(views.APIView):
                 'brand': Brand,
                 'image': str(image),
                 'mrp': mrp,
-                'sellingPrice': round(sellingPrice+((sellingPrice*gst)/100))
+                'sellingPrice': round(sellingPrice)
 
             }
             add = ShippingAddress.objects.filter(
@@ -1892,7 +1888,7 @@ class deleveryBookingAPIView(views.APIView):
                 'mrp': mrp,
                 'size': size,
                 'color': color,
-                'sellingPrice': round(sellingPrice+((sellingPrice*gst)/100))
+                'sellingPrice': round(sellingPrice)
 
             }
             add = ShippingAddress.objects.filter(
@@ -2162,7 +2158,7 @@ class deliveryBoyBookingAPIView(views.APIView):
                         'brand': Brand,
                         'image': str(image),
                         'mrp': mrp,
-                        'sellingPrice': round(sellingPrice+((sellingPrice*gst)/100)),
+                        'sellingPrice': round(sellingPrice),
                         'comm': round((sellingPrice*comm)/100)
                     }
                     add = ShippingAddress.objects.filter(
@@ -2272,7 +2268,7 @@ class deliveryBoyPendingBookingAPIView(views.APIView):
                     'brand': Brand,
                     'image': str(image),
                     'mrp': mrp,
-                    'sellingPrice': round(sellingPrice+((sellingPrice*gst)/100)),
+                    'sellingPrice': round(sellingPrice),
                     'comm': round((sellingPrice*comm)/100)
                 }
                 add = ShippingAddress.objects.filter(
@@ -2382,7 +2378,7 @@ class deliveryBoyCompleteBookingAPIView(views.APIView):
                     'brand': Brand,
                     'image': str(image),
                     'mrp': mrp,
-                    'sellingPrice': round(sellingPrice+((sellingPrice*gst)/100)),
+                    'sellingPrice': round(sellingPrice),
                     'comm': round((sellingPrice*comm)/100)
                 }
                 add = ShippingAddress.objects.filter(
@@ -2492,7 +2488,7 @@ class deliveryBoyCompleteReturnBookingAPIView(views.APIView):
                     'brand': Brand,
                     'image': str(image),
                     'mrp': mrp,
-                    'sellingPrice': round(sellingPrice+((sellingPrice*gst)/100)),
+                    'sellingPrice': round(sellingPrice),
                     'comm': round((sellingPrice*comm)/100)
                 }
                 add = ShippingAddress.objects.filter(
@@ -2602,7 +2598,7 @@ class deliveryBoyPendingReturnBookingAPIView(views.APIView):
                     'brand': Brand,
                     'image': str(image),
                     'mrp': mrp,
-                    'sellingPrice': round(sellingPrice+((sellingPrice*gst)/100)),
+                    'sellingPrice': round(sellingPrice),
                     'comm': round((sellingPrice*comm)/100)
                 }
                 add = ShippingAddress.objects.filter(
