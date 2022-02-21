@@ -278,6 +278,7 @@ class orderSubmitAPIView(views.APIView):
                 for eachProduct in product:
                     perProductSellingPrice = eachProduct.wihoutgstprice
                     availableStock = eachProduct.availableStock
+                    sellprice = eachProduct.sellingPrice
                     orderCount = eachProduct.orderCount
                     sub_cat = SubCategory.objects.filter(
                         id=eachProduct.sub_cat_id_id)
@@ -292,10 +293,10 @@ class orderSubmitAPIView(views.APIView):
                 Booking.objects.create(
                     product_id_id=productLists.product_id_id,
                     quantity=productLists.quantity,
-                    productSellingPrice=perProductSellingPrice,
+                    productSellingPrice=sellprice,
                     productGST=gstValue,
                     productPayablePrice=(round(
-                        perProductSellingPrice)*productLists.quantity),
+                        sellprice)*productLists.quantity),
                     orderID=ORDER_ID,
                     deliveryCharge=delivery_charge,
                     walletAmount=0,
