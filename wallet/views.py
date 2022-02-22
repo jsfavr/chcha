@@ -178,7 +178,7 @@ class WalletWithdrawGetAPI(views.APIView):
             walletUpdate = Wallet.objects.filter(
                 user_id_id=inputs['user_id']).update(amount=updatedWalletBalance)
             WalletTransCreate = WalletTransaction.objects.create(
-                user_id_id=inputs['user_id'], transactionAmount=reddemPrice, afterTransactionAmount=updatedWalletBalance, remarks='Order Return', transactionType='CREDIT')
+                user_id_id=inputs['user_id'], transactionAmount=reddemPrice, afterTransactionAmount=updatedWalletBalance, remarks=remarks, transactionType='CREDIT')
         return Response({'status': 'Wallet  Add'})
 
 
