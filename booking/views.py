@@ -1071,7 +1071,7 @@ class InvoiceBookingDetails(views.APIView):
                     'color': color,
                     'sellingPrice': round(sellingPrice)
                 }
-                productSellingPrice = round(productSellingPrice*eachBooking.quantity)
+                productSellingPrice = round(eachBooking.productSellingPrice*eachBooking.quantity)
                 couponDiscount = couponDiscount+eachBooking.couponDiscount
                 walletAmount = walletAmount+eachBooking.walletAmount
                 walletPoint = walletPoint+eachBooking.walletPoint
