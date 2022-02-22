@@ -541,8 +541,8 @@ class UserDetailsAdmin(views.APIView):
             'orderID': orderID,
             'transID': transID,
             'created_at': created_at,
-            'walletBalance': walletDetails.amount,
-            'walletPoint': walletDetails.point,
+            'walletBalance': 0,
+            'walletPoint': 0,
 
 
         }
