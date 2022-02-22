@@ -1107,51 +1107,6 @@ class InvoiceBookingDetails(views.APIView):
                 'optionalPhone': optionalPhone,
             }
             print(vendorId)
-            eachadd1 = ShippingAddress.objects.filter(
-                user_id_id=vendorId).first()
-            pincode = eachadd1.pincode
-            flat = eachadd1.flat
-            address = eachadd1.address
-            location = eachadd1.location
-            landmark = eachadd1.landmark
-            city = eachadd1.city
-            district = eachadd1.district
-            state = eachadd1.state
-            name = eachadd1.name
-            phone = eachadd1.phone
-            optionalPhone = eachadd1.optionalPhone
-
-            ReturnAddressDetails = {
-                'pincode': pincode,
-                'flat': flat,
-                'address': address,
-                'location': location,
-                'landmark': landmark,
-                'city': city,
-                'district': district,
-                'state': state,
-                'name': name,
-                'phone': phone,
-                'optionalPhone': optionalPhone,
-            }
-            eachbill = BillingAddress.objects.filter(
-                user_id_id=bookingAddress.user_id_id).first()
-            pincode = eachbill.pincode
-            flat = eachbill.flat
-            address = eachbill.address
-            location = eachbill.location
-            city = eachbill.city
-            district = eachbill.district
-            state = eachbill.state
-            BillingAddressDetails = {
-                'pincode': pincode,
-                'flat': flat,
-                'address': address,
-                'location': location,
-                'city': city,
-                'district': district,
-                'state': state,
-            }
             users = User.objects.filter(id=bookingAddress.user_id_id).first()
             uname = users.name
             uphone = users.phone
@@ -1199,8 +1154,8 @@ class InvoiceBookingDetails(views.APIView):
             returnArray = {
                 'bookingArray': bookingArr,
                 'shippingAddress': ShippingAddressDetails,
-                'returnAddress': ReturnAddressDetails,
-                'billingAddress': BillingAddressDetails,
+                'returnAddress': ShippingAddressDetails,
+                'billingAddress': ShippingAddressDetails,
                 'userDetails': UserDetails,
                 'productArray': productArray
             }
@@ -1892,83 +1847,41 @@ class deleveryBookingAPIView(views.APIView):
 
             }
             add = ShippingAddress.objects.filter(
-                id=eachbooking.shippingAddressId_id)
-            for eachadd in add:
-                pincode = eachadd.pincode
-                flat = eachadd.flat
-                address = eachadd.address
-                location = eachadd.location
-                landmark = eachadd.landmark
-                city = eachadd.city
-                district = eachadd.district
-                state = eachadd.state
-                name = eachadd.name
-                phone = eachadd.phone
-                optionalPhone = eachadd.optionalPhone
+                id=eachbooking.shippingAddressId_id).first()
             ShippingAddressDetails = {
-                'pincode': pincode,
-                'flat': flat,
-                'address': address,
-                'location': location,
-                'landmark': landmark,
-                'city': city,
-                'district': district,
-                'state': state,
-                'name': name,
-                'phone': phone,
-                'optionalPhone': optionalPhone,
+                'pincode': add.pincode,
+                'flat': add.flat,
+                'address': add.address,
+                'location': add.location,
+                'landmark': add.landmark,
+                'city': add.city,
+                'district': add.district,
+                'state': add.state,
+                'name': add.name,
+                'phone': add.phone,
+                'optionalPhone': add.optionalPhone,
             }
-            delivery_boy = User.objects.filter(id=eachbooking.deliveryBoyId)
+            delivery_boy = User.objects.filter(id=eachbooking.deliveryBoyId).first()
             if delivery_boy:
-                for dely in delivery_boy:
-                    dname = dely.name
-                    dphone = dely.phone
                 DeliveryboyDetails = {
-                    'name': dname,
-                    'phone': dphone,
+                    'name': delivery_boy.dname,
+                    'phone': delivery_boy.dphone,
                 }
             else:
                 DeliveryboyDetails = {}
-            return_boy = User.objects.filter(id=eachbooking.returnBoyId)
+            return_boy = User.objects.filter(id=eachbooking.returnBoyId).first()
             if return_boy:
-                for rely in return_boy:
-                    rname = rely.name
-                    rphone = rely.phone
                 ReturnboyDetails = {
-                    'name': rname,
-                    'phone': rphone,
+                    'name': return_boy.rname,
+                    'phone': return_boy.rphone,
                 }
             else:
                 ReturnboyDetails = {}
-            billaddress = BillingAddress.objects.filter(
-                user_id_id=eachbooking.user_id_id)
-            for eachbill in billaddress:
-                pincode = eachbill.pincode
-                flat = eachbill.flat
-                address = eachbill.address
-                location = eachbill.location
-                city = eachbill.city
-                district = eachbill.district
-                state = eachbill.state
-            BillingAddressDetails = {
-                'pincode': pincode,
-                'flat': flat,
-                'address': address,
-                'location': location,
-                'city': city,
-                'district': district,
-                'state': state,
-            }
-            users = User.objects.filter(id=eachbooking.user_id_id)
-
-            for user in users:
-                uname = user.name
-                uphone = user.phone
-                uemail = user.email
+            users = User.objects.filter(id=eachbooking.user_id_id).first()
             UserDetails = {
-                'name': uname,
-                'phone': uphone,
-                'email': uemail
+                'name': users.uname,
+                'phone': users.uphone,
+                'email': users.uemail
             }
 
             pro = {
@@ -1977,7 +1890,7 @@ class deleveryBookingAPIView(views.APIView):
                 'shippingAddress': ShippingAddressDetails,
                 'deliveryBoy': DeliveryboyDetails,
                 'returnBoy': ReturnboyDetails,
-                'billingAddress': BillingAddressDetails,
+                'billingAddress': ShippingAddressDetails,
                 'userDetails': UserDetails
             }
             booking2.append(pro)
