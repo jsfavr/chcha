@@ -834,6 +834,9 @@ class vendorWiseBookingDetails(views.APIView):
                 orderStatus=8, orderID=id).order_by('-id')
             bookingAddress = Booking.objects.filter(
                 orderID=id, orderStatus=8).first()
+        elif int(status) == 0:
+            booking = Booking.objects.filter( orderID=id).order_by('-id')
+            bookingAddress = Booking.objects.filter(orderID=id).first()
             # print(status)
             # print(booking)
         # booking = Booking.objects.filter(
