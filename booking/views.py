@@ -860,6 +860,7 @@ class vendorWiseBookingDetails(views.APIView):
                     id=eachproduct.sub_cat_id_id)
                 for eachsubcatdel in subcatdel:
                     gst = eachsubcatdel.gst
+                    com = eachsubcatdel.commission
                 cancelReason = Reason.objects.filter(
                     booking_id_id=eachBooking.id, type="Cancel").first()
                 if cancelReason:
@@ -906,9 +907,8 @@ class vendorWiseBookingDetails(views.APIView):
                     'color': color,
                     'sellingPrice': round(sellingPrice),
                     'cancelReason': reasonArr,
-                    'returnReason': reasonArr2
-
-
+                    'returnReason': reasonArr2,
+                    'admin_com': round((sellingPrice*com)/100),
                 }
                 productSellingPrice = round(eachBooking.productSellingPrice * eachBooking.quantity)
                 couponDiscount = couponDiscount+eachBooking.couponDiscount
