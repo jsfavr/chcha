@@ -147,6 +147,11 @@ class WalletWithdrawGetAPI(views.APIView):
     def post(self, request):
         inputs = request.data
         reddemPrice = 10
+        if inputs['reddemPrice'] :
+            reddemPrice = inputs['reddemPrice']
+        remarks='Order Returned'
+        if inputs['remarks'] :
+            remarks = inputs['remarks']
         status = inputs['order_status']
         if status == 4:
             wallet = Wallet.objects.filter(user_id_id=inputs['user_id'])
@@ -160,7 +165,7 @@ class WalletWithdrawGetAPI(views.APIView):
             walletUpdate = Wallet.objects.filter(
                 user_id_id=inputs['user_id']).update(amount=updatedWalletBalance)
             WalletTransCreate = WalletTransaction.objects.create(
-                user_id_id=inputs['user_id'], transactionAmount=reddemPrice, afterTransactionAmount=updatedWalletBalance, remarks='Order Returned', transactionType='CREDIT')
+                user_id_id=inputs['user_id'], transactionAmount=reddemPrice, afterTransactionAmount=updatedWalletBalance, remarks=remarks, transactionType='CREDIT')
         else:
             wallet = Wallet.objects.filter(user_id_id=inputs['user_id'])
             for eachWallet in wallet:
