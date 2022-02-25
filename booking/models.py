@@ -63,6 +63,7 @@ class Booking(models.Model):
     deliveryBoyId = models.IntegerField(default=1)
     returnBoyId = models.IntegerField(default=1)
     returnExpairStatus = models.BooleanField(default=False)
+    vendor_paid_status = models.BooleanField(default=False)
 
 
 class Reason(models.Model):
