@@ -187,6 +187,8 @@ class userCancelBookingAPIView(views.APIView):
         # print(inputs['booking_id'])
         eachbooking = Booking.objects.filter(id=inputs['booking_id']).first()
         if eachbooking.orderStatus!=9:
+            bookingUpdate = Booking.objects.filter(
+            id=inputs['booking_id']).update(orderStatus=9)
             product_id = eachbooking.product_id_id
             qty = eachbooking.quantity
             bookingID = eachbooking.orderID
