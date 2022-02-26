@@ -74,7 +74,7 @@ class userBookingAPIView(views.APIView):
 
         booking2 = []
         ShippingAddressDetails = []
-        booking = Booking.objects.filter(user_id_id=user_id).order_by('-id')
+        booking = Booking.objects.filter(user_id_id=user_id).order_by('-id')[:15]
         for eachbooking in booking:
 
             bookingDetails = {
@@ -187,30 +187,9 @@ class userCancelBookingAPIView(views.APIView):
         # print(inputs['booking_id'])
         eachbooking = Booking.objects.filter(id=inputs['booking_id']).first()
         if eachbooking.orderStatus!=9:
-            productPayablePrice = eachbooking.productPayablePrice
-            couponDiscount = eachbooking.couponDiscount
-            walletPoint = eachbooking.walletPoint
             product_id = eachbooking.product_id_id
             qty = eachbooking.quantity
             bookingID = eachbooking.orderID
-
-            wallet = Wallet.objects.filter(user_id_id=user_id).first()
-            currentWalletBalance = wallet.amount
-
-            RefundableAmount = productPayablePrice-couponDiscount-walletPoint
-            updatedWalletBalance = currentWalletBalance+RefundableAmount
-
-            bookingUpdate = Booking.objects.filter(id=inputs['booking_id']).update(
-                orderStatus=9, cancelDate=datetime.now())
-            print(eachbooking.paymentType)
-            if eachbooking.paymentType!='Cash On Delivery':
-                walletUpdate = Wallet.objects.filter(
-                    user_id_id=user_id).update(amount=updatedWalletBalance)
-                WalletTransCreate = WalletTransaction.objects.create(
-                    user_id_id=user_id, transactionAmount=RefundableAmount, afterTransactionAmount=updatedWalletBalance, remarks='Cancel Order', transactionType='CREDIT')
-            else:
-                print('Cash On Delivery')
-            
             reasonCreate = Reason.objects.create(
                 user_id_id=user_id, booking_id_id=inputs['booking_id'], type='Cancel', reason=inputs['cancel_option'], message=inputs['cancel_msg'])
 
