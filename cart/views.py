@@ -183,18 +183,46 @@ class AddUserCart(views.APIView):
     def post(self, request):
         inputs = request.data
         user_id = self.request.user.id
-        cart_item = Cart.objects.filter(
-            user_id_id=user_id, product_id_id=inputs['product_id'])
-        if cart_item:
-            cart_data = Cart.objects.filter(
-                user_id_id=user_id, product_id_id=inputs['product_id']
-            ).update(
-                quantity=inputs['quantity'])
-            return Response({'cart': 'Item Already Updated'}, status=status.HTTP_200_OK)
+        user_cart = Cart.objects.filter(user_id_id=user_id)
+        isCart = False
+        proGet = Product.objects.filter(id=inputs['product_id']).first()
+        for eachProd in user_cart:
+            cart = Cart.objects.filter(id=eachProd.id)
+            product = Product.objects.filter(id=eachProd.product_id_id)
+            for eachProd1 in product:
+                if eachProd1.user_id_id == proGet.user_id_id:
+                    isCart = True
+                else:
+                    isCart = False
+        if user_cart:
+            if isCart:      
+                cart_item = Cart.objects.filter(
+                    user_id_id=user_id, product_id_id=inputs['product_id'])
+                if cart_item:
+                    cart_data = Cart.objects.filter(
+                        user_id_id=user_id, product_id_id=inputs['product_id']
+                    ).update(
+                        quantity=inputs['quantity'])
+                    return Response({'cart': 'Item Already Updated'}, status=status.HTTP_200_OK)
+                else:
+                    cart_data = Cart.objects.create(
+                        quantity=inputs['quantity'], product_id_id=inputs['product_id'], user_id_id=user_id)
+                    return Response({'cart': 'Item Successfully Added'}, status=status.HTTP_200_OK)
+            else:
+                return Response({'cart': 'Cart Item Always be same Vendor'}, status=status.HTTP_400_BAD_REQUEST)
         else:
-            cart_data = Cart.objects.create(
-                quantity=inputs['quantity'], product_id_id=inputs['product_id'], user_id_id=user_id)
-            return Response({'cart': 'Item Successfully Added'}, status=status.HTTP_200_OK)
+            cart_item = Cart.objects.filter(
+                user_id_id=user_id, product_id_id=inputs['product_id'])
+            if cart_item:
+                cart_data = Cart.objects.filter(
+                    user_id_id=user_id, product_id_id=inputs['product_id']
+                ).update(
+                    quantity=inputs['quantity'])
+                return Response({'cart': 'Item Already Updated'}, status=status.HTTP_200_OK)
+            else:
+                cart_data = Cart.objects.create(
+                    quantity=inputs['quantity'], product_id_id=inputs['product_id'], user_id_id=user_id)
+                return Response({'cart': 'Item Successfully Added'}, status=status.HTTP_200_OK)
 
 
 class AddUserWishlist(views.APIView):
@@ -203,14 +231,39 @@ class AddUserWishlist(views.APIView):
     def post(self, request):
         inputs = request.data
         user_id = self.request.user.id
-        wishlist_item = Wishlist.objects.filter(
-            user_id_id=user_id, product_id_id=inputs['product_id'])
-        if wishlist_item:
-            return Response({'wishlist': 'Item Already Added'}, status=status.HTTP_200_OK)
+        user_cart = Wishlist.objects.filter(user_id_id=user_id)
+        isCart = False
+        proGet = Product.objects.filter(id=inputs['product_id']).first()
+        for eachProd in user_cart:
+            cart = Wishlist.objects.filter(id=eachProd.id)
+            product = Product.objects.filter(id=eachProd.product_id_id)
+            for eachProd1 in product:
+                if eachProd1.user_id_id == proGet.user_id_id:
+                    isCart = True
+                else:
+                    isCart = False
+        if user_cart:
+            if isCart: 
+                wishlist_item = Wishlist.objects.filter(
+                    user_id_id=user_id, product_id_id=inputs['product_id'])
+                if wishlist_item:
+                    return Response({'wishlist': 'Item Already Added'}, status=status.HTTP_200_OK)
+                else:
+                    wishlist_data = Wishlist.objects.create(
+                        product_id_id=inputs['product_id'], user_id_id=user_id)
+                    return Response({'wishlist': 'Item Successfully Added'}, status=status.HTTP_200_OK)
+            else:
+                return Response({'wishlist': 'wishlist Item Always be same Vendor'}, status=status.HTTP_400_BAD_REQUEST)
         else:
-            wishlist_data = Wishlist.objects.create(
-                product_id_id=inputs['product_id'], user_id_id=user_id)
-            return Response({'wishlist': 'Item Successfully Added'}, status=status.HTTP_200_OK)
+            wishlist_item = Wishlist.objects.filter(
+                user_id_id=user_id, product_id_id=inputs['product_id'])
+            if wishlist_item:
+                return Response({'wishlist': 'Item Already Added'}, status=status.HTTP_200_OK)
+            else:
+                wishlist_data = Wishlist.objects.create(
+                    product_id_id=inputs['product_id'], user_id_id=user_id)
+                return Response({'wishlist': 'Item Successfully Added'}, status=status.HTTP_200_OK)
+                
 
 
 class CountCartlist(views.APIView):
