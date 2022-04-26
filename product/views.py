@@ -229,7 +229,7 @@ class searchViewProductAPIView(views.APIView):
             product = []
             for eachCategory in category:
                 productArr = Product.objects.filter(
-                    cat_id_id=eachCategory.id)
+                    cat_id=eachCategory.id)
                 for eachProd in productArr:
                     product.append(eachProd)
         elif inputs['searchType'] == 'Sub Category':
@@ -238,7 +238,7 @@ class searchViewProductAPIView(views.APIView):
             product = []
             for eachCategory in subCategory:
                 productArr = Product.objects.filter(
-                    sub_cat_id_id=eachCategory.id)
+                    sub_cat_id=eachCategory.id)
                 for eachProd in productArr:
                     product.append(eachProd)
         elif inputs['searchType'] == 'Sub Sub Category':
@@ -247,7 +247,7 @@ class searchViewProductAPIView(views.APIView):
             product = []
             for eachCategory in subSubCategory:
                 productArr = Product.objects.filter(
-                    sub_sub_cat_id_id=eachCategory.id)
+                    sub_sub_cat_id=eachCategory.id)
                 for eachProd in productArr:
                     product.append(eachProd)
         elif inputs['searchType'] == 'Vendor Status':
@@ -490,7 +490,7 @@ class viewSearchVendorProductAPIView(views.APIView):
             product = []
             for eachCategory in category:
                 productArr = Product.objects.filter(
-                    cat_id_id=eachCategory.id, user_id_id=user_id)
+                    cat_id=eachCategory.id, user_id_id=user_id)
                 for eachProd in productArr:
                     product.append(eachProd)
         elif inputs['searchType'] == 'Sub Category':
@@ -499,7 +499,7 @@ class viewSearchVendorProductAPIView(views.APIView):
             product = []
             for eachCategory in subCategory:
                 productArr = Product.objects.filter(
-                    sub_cat_id_id=eachCategory.id, user_id_id=user_id)
+                    sub_cat_id=eachCategory.id, user_id_id=user_id)
                 for eachProd in productArr:
                     product.append(eachProd)
         elif inputs['searchType'] == 'Sub Sub Category':
@@ -508,7 +508,7 @@ class viewSearchVendorProductAPIView(views.APIView):
             product = []
             for eachCategory in subSubCategory:
                 productArr = Product.objects.filter(
-                    sub_sub_cat_id_id=eachCategory.id, user_id_id=user_id)
+                    sub_sub_cat_id=eachCategory.id, user_id_id=user_id)
                 for eachProd in productArr:
                     product.append(eachProd)
         elif inputs['searchType'] == 'Vendor Status':
@@ -683,7 +683,7 @@ class ProductaddAPI(views.APIView):
         inputs = request.data
         user_id = self.request.user.id
         product_data = Product.objects.create(productCode=inputs['productCode'], skuCode=inputs['skuCode'], productName=inputs['productName'], size=inputs['size'], color=inputs['color'], mrp=inputs['mrp'], sellingPrice=inputs['sellingPrice'], totalStock=inputs['totalStock'], availableStock=inputs['availableStock'],
-                                              cat_id_id=inputs['cat_id_id'], productBrandID_id=inputs['productBrandID_id'], productGroupID_id=inputs['productGroupID_id'], sub_cat_id_id=inputs['sub_cat_id_id'], sub_sub_cat_id_id=inputs['sub_sub_cat_id_id'], user_id_id=user_id, productDescription=inputs['productDescription'], contryOfOrigin=inputs['contryOfOrigin'],wihoutgstprice=inputs['wihoutgstprice'])
+                                              cat_id=inputs['cat_id_id'], productBrandID_id=inputs['productBrandID_id'], productGroupID_id=inputs['productGroupID_id'], sub_cat_id=inputs['sub_cat_id_id'], sub_sub_cat_id=inputs['sub_sub_cat_id_id'], user_id_id=user_id, productDescription=inputs['productDescription'], contryOfOrigin=inputs['contryOfOrigin'],wihoutgstprice=inputs['wihoutgstprice'])
         product_data.save()
         pid = product_data.id
         product_image_data = ProductImage.objects.create(
@@ -801,7 +801,7 @@ class SingleProductUserAPIView(views.APIView):
                 modifiedColor.append(newcolor)
 
             rel = Product.objects.filter(
-                sub_sub_cat_id_id=eachProd.sub_sub_cat_id_id)
+                sub_sub_cat_id=eachProd.sub_sub_cat_id_id)
             modifiedrel = []
             for eachrel in rel:
                 det = Product.objects.filter(id=eachrel.id)
