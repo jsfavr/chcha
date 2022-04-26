@@ -18,10 +18,9 @@ class Product(models.Model):
     skuCode = models.CharField(max_length=50)
     productGroupID_id = models.IntegerField(default=0)
     productBrandID_id = models.IntegerField(default=0)
-    cat_id = models.ForeignKey(Category, on_delete=models.CASCADE, default=1)
-    sub_cat_id = models.ForeignKey(SubCategory, on_delete=models.CASCADE)
-    sub_sub_cat_id = models.ForeignKey(
-        SubSubCategory, on_delete=models.CASCADE)
+    cat_id = models.IntegerField(default=1)
+    sub_cat_id = models.IntegerField(default=1)
+    sub_sub_cat_id = models.IntegerField(default=1)
     user_id = models.ForeignKey(User, on_delete=models.CASCADE)
     productName = models.CharField(max_length=200)
     productDescription = models.CharField(
