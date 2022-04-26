@@ -69,7 +69,7 @@ class ProductAPIView(ListCreateAPIView):
         return serializer.save(user_id=self.request.user)
 
     def get_queryset(self):
-        return self.queryset.filter(user_id=self.request.user)
+        return self.queryset.filter(user_id__owner=self.request.user)
 
 
 class ProductDetailsAPIView(RetrieveUpdateDestroyAPIView):
