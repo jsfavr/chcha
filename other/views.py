@@ -634,15 +634,18 @@ class SettingsAPIDetailsView(RetrieveUpdateDestroyAPIView):
 class settingArrayAPIView(views.APIView):
     def post(self, request):
         setting = Settings.objects.first()
-        returnArr = {
-            'acceptOrder': setting.acceptOrder,
-            'appUpdateMandetory': setting.appUpdateMandetory,
-            'coupon': setting.coupon,
-            'debug': setting.debug,
-            'underMantanance': setting.underMantanance,
-            'vendorRegistration': setting.vendorRegistration,
-            'livePaymentGateway': setting.livePaymentGateway
-        }
+        if setting:
+            returnArr = {
+                'acceptOrder': setting.acceptOrder,
+                'appUpdateMandetory': setting.appUpdateMandetory,
+                'coupon': setting.coupon,
+                'debug': setting.debug,
+                'underMantanance': setting.underMantanance,
+                'vendorRegistration': setting.vendorRegistration,
+                'livePaymentGateway': setting.livePaymentGateway
+            }
+        else:
+            returnArr={}
         return Response(returnArr)
 
 

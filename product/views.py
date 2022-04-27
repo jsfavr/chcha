@@ -263,11 +263,11 @@ class searchViewProductAPIView(views.APIView):
         for eachProd in product:
             productFirst = Product.objects.filter(id=eachProd.id).first()
             pdel = Product.objects.filter(id=productFirst.id)
-            catdel = Category.objects.filter(id=productFirst.cat_id_id)
+            catdel = Category.objects.filter(id=productFirst.cat_id)
             subcatdel = SubCategory.objects.filter(
-                id=productFirst.sub_cat_id_id)
+                id=productFirst.sub_cat_id)
             subsubcatdel = SubSubCategory.objects.filter(
-                id=productFirst.sub_sub_cat_id_id)
+                id=productFirst.sub_sub_cat_id)
             image1 = ProductImage.objects.filter(productID_id=productFirst.id)
             feature = ProductFeature.objects.filter(
                 productID_id=productFirst.id)
@@ -319,10 +319,10 @@ class viewProductAPIView(views.APIView):
         modifiedProduct = []
         for eachProd in product:
             pdel = Product.objects.filter(id=eachProd.id)
-            catdel = Category.objects.filter(id=eachProd.cat_id_id)
-            subcatdel = SubCategory.objects.filter(id=eachProd.sub_cat_id_id)
+            catdel = Category.objects.filter(id=eachProd.cat_id)
+            subcatdel = SubCategory.objects.filter(id=eachProd.sub_cat_id)
             subsubcatdel = SubSubCategory.objects.filter(
-                id=eachProd.sub_sub_cat_id_id)
+                id=eachProd.sub_sub_cat_id)
             image1 = ProductImage.objects.filter(productID_id=eachProd.id)
             feature = ProductFeature.objects.filter(productID_id=eachProd.id)
             specification = ProductSpecification.objects.filter(
@@ -374,10 +374,10 @@ class viewVendorProductAPIView(views.APIView):
         modifiedProduct = []
         for eachProd in product:
             pdel = Product.objects.filter(id=eachProd.id)
-            catdel = Category.objects.filter(id=eachProd.cat_id_id)
-            subcatdel = SubCategory.objects.filter(id=eachProd.sub_cat_id_id)
+            catdel = Category.objects.filter(id=eachProd.cat_id)
+            subcatdel = SubCategory.objects.filter(id=eachProd.sub_cat_id)
             subsubcatdel = SubSubCategory.objects.filter(
-                id=eachProd.sub_sub_cat_id_id)
+                id=eachProd.sub_sub_cat_id)
             image1 = ProductImage.objects.filter(productID_id=eachProd.id)
             feature = ProductFeature.objects.filter(productID_id=eachProd.id)
             specification = ProductSpecification.objects.filter(
@@ -524,11 +524,11 @@ class viewSearchVendorProductAPIView(views.APIView):
         for eachProd in product:
             productFirst = Product.objects.filter(id=eachProd.id).first()
             pdel = Product.objects.filter(id=productFirst.id)
-            catdel = Category.objects.filter(id=productFirst.cat_id_id)
+            catdel = Category.objects.filter(id=productFirst.cat_id)
             subcatdel = SubCategory.objects.filter(
-                id=productFirst.sub_cat_id_id)
+                id=productFirst.sub_cat_id)
             subsubcatdel = SubSubCategory.objects.filter(
-                id=productFirst.sub_sub_cat_id_id)
+                id=productFirst.sub_sub_cat_id)
             image1 = ProductImage.objects.filter(
                 productID_id=productFirst.id)
             feature = ProductFeature.objects.filter(
@@ -583,10 +583,10 @@ class SingleProductAdminAPIView(views.APIView):
         modifiedProduct = []
         for eachProd in product:
             pdel = Product.objects.filter(id=eachProd.id)
-            catdel = Category.objects.filter(id=eachProd.cat_id_id)
-            subcatdel = SubCategory.objects.filter(id=eachProd.sub_cat_id_id)
+            catdel = Category.objects.filter(id=eachProd.cat_id)
+            subcatdel = SubCategory.objects.filter(id=eachProd.sub_cat_id)
             subsubcatdel = SubSubCategory.objects.filter(
-                id=eachProd.sub_sub_cat_id_id)
+                id=eachProd.sub_sub_cat_id)
             image1 = ProductImage.objects.filter(productID_id=eachProd.id)
             feature = ProductFeature.objects.filter(productID_id=eachProd.id)
             specification = ProductSpecification.objects.filter(
@@ -636,10 +636,10 @@ class SingleVendorProductAPIView(views.APIView):
         modifiedProduct = []
         for eachProd in product:
             pdel = Product.objects.filter(id=eachProd.id)
-            catdel = Category.objects.filter(id=eachProd.cat_id_id)
-            subcatdel = SubCategory.objects.filter(id=eachProd.sub_cat_id_id)
+            catdel = Category.objects.filter(id=eachProd.cat_id)
+            subcatdel = SubCategory.objects.filter(id=eachProd.sub_cat_id)
             subsubcatdel = SubSubCategory.objects.filter(
-                id=eachProd.sub_sub_cat_id_id)
+                id=eachProd.sub_sub_cat_id)
             image1 = ProductImage.objects.filter(productID_id=eachProd.id)
             feature = ProductFeature.objects.filter(productID_id=eachProd.id)
             specification = ProductSpecification.objects.filter(
@@ -683,7 +683,7 @@ class ProductaddAPI(views.APIView):
         inputs = request.data
         user_id = self.request.user.id
         product_data = Product.objects.create(productCode=inputs['productCode'], skuCode=inputs['skuCode'], productName=inputs['productName'], size=inputs['size'], color=inputs['color'], mrp=inputs['mrp'], sellingPrice=inputs['sellingPrice'], totalStock=inputs['totalStock'], availableStock=inputs['availableStock'],
-                                              cat_id=inputs['cat_id_id'], productBrandID_id=inputs['productBrandID_id'], productGroupID_id=inputs['productGroupID_id'], sub_cat_id=inputs['sub_cat_id_id'], sub_sub_cat_id=inputs['sub_sub_cat_id_id'], user_id_id=user_id, productDescription=inputs['productDescription'], contryOfOrigin=inputs['contryOfOrigin'],wihoutgstprice=inputs['wihoutgstprice'])
+                                              cat_id=inputs['cat_id'], productBrandID_id=inputs['productBrandID_id'], productGroupID_id=inputs['productGroupID_id'], sub_cat_id=inputs['sub_cat_id'], sub_sub_cat_id=inputs['sub_sub_cat_id'], user_id_id=user_id, productDescription=inputs['productDescription'], contryOfOrigin=inputs['contryOfOrigin'],wihoutgstprice=inputs['wihoutgstprice'])
         product_data.save()
         pid = product_data.id
         product_image_data = ProductImage.objects.create(
@@ -765,10 +765,10 @@ class SingleProductUserAPIView(views.APIView):
 
         for eachProd in product:
             pdel = Product.objects.filter(id=eachProd.id)
-            catdel = Category.objects.filter(id=eachProd.cat_id_id)
-            subcatdel = SubCategory.objects.filter(id=eachProd.sub_cat_id_id)
+            catdel = Category.objects.filter(id=eachProd.cat_id)
+            subcatdel = SubCategory.objects.filter(id=eachProd.sub_cat_id)
             subsubcatdel = SubSubCategory.objects.filter(
-                id=eachProd.sub_sub_cat_id_id)
+                id=eachProd.sub_sub_cat_id)
             image1 = ProductImage.objects.filter(productID_id=eachProd.id)
             feature = ProductFeature.objects.filter(productID_id=eachProd.id)
             specification = ProductSpecification.objects.filter(
@@ -801,7 +801,7 @@ class SingleProductUserAPIView(views.APIView):
                 modifiedColor.append(newcolor)
 
             rel = Product.objects.filter(
-                sub_sub_cat_id=eachProd.sub_sub_cat_id_id)
+                sub_sub_cat_id=eachProd.sub_sub_cat_id)
             modifiedrel = []
             for eachrel in rel:
                 det = Product.objects.filter(id=eachrel.id)
@@ -809,7 +809,7 @@ class SingleProductUserAPIView(views.APIView):
                 brandddd = ProductBrand.objects.filter(
                     id=eachrel.productBrandID_id)
                 subcatdel = SubCategory.objects.filter(
-                    id=eachrel.sub_cat_id_id)
+                    id=eachrel.sub_cat_id)
 
                 relDetails = serializers.serialize('json', det)
                 relImage = serializers.serialize('json', image122)
@@ -919,7 +919,7 @@ class NewArrivalAPIView(views.APIView):
             image122 = ProductImage.objects.filter(productID_id=eachrel.id)
             brandddd = ProductBrand.objects.filter(
                 id=eachrel.productBrandID_id)
-            subcatdel = SubCategory.objects.filter(id=eachrel.sub_cat_id_id)
+            subcatdel = SubCategory.objects.filter(id=eachrel.sub_cat_id)
 
             relDetails = serializers.serialize('json', det)
             relImage = serializers.serialize('json', image122)
@@ -947,7 +947,7 @@ class AllShopAPIView(views.APIView):
                 id=eachrel.productBrandID_id)
             brand = ProductBrand.objects.values('brand_name').annotate(
                 dcount=Count('brand_name')).filter(id=eachrel.productBrandID_id)
-            subcatdel = SubCategory.objects.filter(id=eachrel.sub_cat_id_id)
+            subcatdel = SubCategory.objects.filter(id=eachrel.sub_cat_id)
             relDetails = serializers.serialize('json', det)
             relImage = serializers.serialize('json', image122)
             relbrand = serializers.serialize('json', brandddd)
@@ -975,7 +975,7 @@ class MostViewAPIView(views.APIView):
             image122 = ProductImage.objects.filter(productID_id=eachrel.id)
             brandddd = ProductBrand.objects.filter(
                 id=eachrel.productBrandID_id)
-            subcatdel = SubCategory.objects.filter(id=eachrel.sub_cat_id_id)
+            subcatdel = SubCategory.objects.filter(id=eachrel.sub_cat_id)
 
             relDetails = serializers.serialize('json', det)
             relImage = serializers.serialize('json', image122)
@@ -1001,7 +1001,7 @@ class MostRattedAPIView(views.APIView):
             image122 = ProductImage.objects.filter(productID_id=eachrel.id)
             brandddd = ProductBrand.objects.filter(
                 id=eachrel.productBrandID_id)
-            subcatdel = SubCategory.objects.filter(id=eachrel.sub_cat_id_id)
+            subcatdel = SubCategory.objects.filter(id=eachrel.sub_cat_id)
 
             relDetails = serializers.serialize('json', det)
             relImage = serializers.serialize('json', image122)
@@ -1034,7 +1034,7 @@ class TopProductAPIView(views.APIView):
                 brandddd = ProductBrand.objects.filter(
                     id=eachrel.productBrandID_id)
                 subcatdel = SubCategory.objects.filter(
-                    id=eachrel.sub_cat_id_id)
+                    id=eachrel.sub_cat_id)
 
                 relDetails = serializers.serialize('json', det)
                 relImage = serializers.serialize('json', image122)
