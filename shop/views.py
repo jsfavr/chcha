@@ -21,9 +21,9 @@ class shopPageAPIView(ListCreateAPIView):
         if int(inputs['cat'])!=0:
             product=product.filter(cat_id=inputs['cat'])
         if int(inputs['subCat'])!=0:
-            product=product.filter(sub_cat_id_id=inputs['subCat'])
+            product=product.filter(sub_cat_id=inputs['subCat'])
         if int(inputs['subSubCat'])!=0:
-            product=product.filter(sub_sub_cat_id_id=inputs['subSubCat'])
+            product=product.filter(sub_sub_cat_id=inputs['subSubCat'])
         # if int(inputs['brand'])!=0:
         #     product=product.filter(productBrandID_id=inputs['brand'])
         print((inputs['productName']))
@@ -82,9 +82,9 @@ class AllShopAPIView(views.APIView):
         if int(inputs['cat'])!=0:
             product=product.filter(cat_id=inputs['cat'])
         if int(inputs['subCat'])!=0:
-            product=product.filter(sub_cat_id_id=inputs['subCat'])
+            product=product.filter(sub_cat_id=inputs['subCat'])
         if int(inputs['subSubCat'])!=0:
-            product=product.filter(sub_sub_cat_id_id=inputs['subSubCat'])
+            product=product.filter(sub_sub_cat_id=inputs['subSubCat'])
         # if int(inputs['brand'])!=0:
         #     product=product.filter(productBrandID_id=inputs['brand'])
         if len(inputs['productName'])>1:
@@ -119,7 +119,7 @@ class AllShopAPIView(views.APIView):
             image122 = ProductImage.objects.filter(productID_id=eachrel.id)
             brandddd = ProductBrand.objects.filter(id=eachrel.productBrandID_id)
             brand = ProductBrand.objects.values('brand_name').annotate(dcount=Count('brand_name')).filter(id=eachrel.productBrandID_id)
-            subcatdel = SubCategory.objects.filter(id=eachrel.sub_cat_id_id)
+            subcatdel = SubCategory.objects.filter(id=eachrel.sub_cat_id)
             relDetails = serializers.serialize('json', det)
             relImage = serializers.serialize('json', image122)
             relbrand = serializers.serialize('json', brandddd)

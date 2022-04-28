@@ -85,7 +85,7 @@ class GetProductAPIView(views.APIView):
                 image=ProductImage.objects.filter(productID_id=eachProd.id)[:1]
                 for eachimage in image:
                     productImage=eachimage.productImage
-                sub=SubCategory.objects.filter(id=eachProd.sub_cat_id_id)
+                sub=SubCategory.objects.filter(id=eachProd.sub_cat_id)
                 for eachsub in sub:
                     gst=eachsub.gst
                 id=eachProd.id
@@ -136,14 +136,14 @@ class OrderSubmitAPIView(views.APIView):
                 availableStock=eachProd.availableStock
                 orderCount=eachProd.orderCount
                 id=eachProd.id
-                sub=SubCategory.objects.filter(id=eachProd.sub_cat_id_id)
+                sub=SubCategory.objects.filter(id=eachProd.sub_cat_id)
                 for eachsub in sub:
                     gst=eachsub.gst
                 sellingPrice=eachProd.sellingPrice+((eachProd.sellingPrice*gst)/100)
                 print(eachProd.id)
                 
               
-                sub=SubCategory.objects.filter(id=eachProd.sub_cat_id_id)
+                sub=SubCategory.objects.filter(id=eachProd.sub_cat_id)
                 for eachsub in sub:
                     gst=eachsub.gst
                 

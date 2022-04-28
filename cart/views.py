@@ -89,7 +89,7 @@ class UserCartView(views.APIView):
                 vendor = VendorDetails.objects.filter(
                     user_id_id=eachProd1.user_id_id)
                 subcatdel = SubCategory.objects.filter(
-                    id=eachProd1.sub_cat_id_id)
+                    id=eachProd1.sub_cat_id)
 
             image = ProductImage.objects.filter(
                 productID_id=eachProd.product_id_id)
@@ -134,7 +134,7 @@ class UserwishlistView(views.APIView):
                 vendor = VendorDetails.objects.filter(
                     user_id_id=eachProd1.user_id_id)
                 subcatdel = SubCategory.objects.filter(
-                    id=eachProd1.sub_cat_id_id)
+                    id=eachProd1.sub_cat_id)
 
             image = ProductImage.objects.filter(
                 productID_id=eachProd.product_id_id)

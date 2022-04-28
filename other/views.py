@@ -176,7 +176,7 @@ class userSearchAPIView(views.APIView):
             image = ProductImage.objects.filter(productID_id=eachProd.id)[:1]
             for eachimage in image:
                 productImage = eachimage.productImage
-            sub = SubCategory.objects.filter(id=eachProd.sub_cat_id_id)
+            sub = SubCategory.objects.filter(id=eachProd.sub_cat_id)
             for eachsub in sub:
                 gst = eachsub.gst
             id = eachProd.id
@@ -211,7 +211,7 @@ class vendorRedeemAPIView(views.APIView):
             product = Product.objects.filter(id=productID)
             custID = eachBooking.user_id_id
             for eachProduct in product:
-                subCatID = eachProduct.sub_cat_id_id
+                subCatID = eachProduct.sub_cat_id
                 sellingPrice = eachProduct.sellingPrice
                 sub_cat = SubCategory.objects.filter(id=subCatID)
                 for eachSub_cat in sub_cat:
@@ -442,7 +442,7 @@ class usersearchByCodeAPIView(views.APIView):
             image = ProductImage.objects.filter(productID_id=eachProd.id)[:1]
             for eachimage in image:
                 productImage = eachimage.productImage
-            sub = SubCategory.objects.filter(id=eachProd.sub_cat_id_id)
+            sub = SubCategory.objects.filter(id=eachProd.sub_cat_id)
             for eachsub in sub:
                 gst = eachsub.gst
             id = eachProd.id
@@ -484,8 +484,8 @@ class usersearchByCodeAPIView(views.APIView):
             sub_sub_cat_name__contains=inputs['name'])[:2]
         for eachsubsubcat in subsubcat:
             subCat = SubCategory.objects.filter(
-                id=eachsubsubcat.sub_cat_id_id).first()
-            Cat = Category.objects.filter(id=subCat.cat_id_id).first()
+                id=eachsubsubcat.sub_cat_id).first()
+            Cat = Category.objects.filter(id=subCat.cat_id).first()
             newrel = {
                 'id': eachsubsubcat.id,
                 'name': eachsubsubcat.sub_sub_cat_name,
@@ -503,7 +503,7 @@ class usersearchByCodeAPIView(views.APIView):
         subCat12 = SubCategory.objects.filter(
             sub_cat_name__contains=inputs['name'])[:2]
         for eachsubcat in subCat12:
-            Cat1 = Category.objects.filter(id=eachsubcat.cat_id_id).first()
+            Cat1 = Category.objects.filter(id=eachsubcat.cat_id).first()
             newrel = {
                 'id': eachsubcat.id,
                 'name': eachsubcat.sub_cat_name,

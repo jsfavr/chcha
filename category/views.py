@@ -106,16 +106,16 @@ class SubcatDetailsAPIView(views.APIView):
         pid = id
         print(pid)
         # data = Category.objects.filter(id=pid)
-        # data1 = SubCategorytype.objects.filter(cat_id_id=pid)
+        # data1 = SubCategorytype.objects.filter(cat_id=pid)
         # context = {'subcat':data,'cat':data1}
         # print(context)
         cursor = connection.cursor()
-        cursor.execute('SELECT s.*,c.* FROM category_subcategorytype s inner join category_category c on s.cat_id_id=c.id where s.cat_id_id=3')
+        cursor.execute('SELECT s.*,c.* FROM category_subcategorytype s inner join category_category c on s.cat_id=c.id where s.cat_id=3')
         row = cursor.fetchall()
         data=row
         json_output = json.dumps(data)
         # print(json_output)
-        # data = SubCategorytype.objects.raw('SELECT s.*,c.* FROM category_subcategorytype s inner join category_category c on s.cat_id_id=c.id where s.cat_id_id=3')
+        # data = SubCategorytype.objects.raw('SELECT s.*,c.* FROM category_subcategorytype s inner join category_category c on s.cat_id=c.id where s.cat_id=3')
         # query = 'SELECT * FROM category_subcategorytype WHERE id = %s' % pid
         # cursor.execute(query)
         # row = cursor.fetchall()
@@ -130,7 +130,7 @@ class SubcatView(views.APIView):
         new_data = Category.objects.create(cat_name=datas['cat_name'],cat_icon=datas['cat_icon'])
         new_data.save()
         cid = new_data.id
-        new_subcat = SubCategory.objects.create(sub_cat_name=datas['sub_cat_name'],sub_cat_icon=datas['sub_cat_icon'],commission=datas['commission'],gst=datas['gst'],homepage_view_status=datas['homepage_view_status'],cat_id_id = cid )
+        new_subcat = SubCategory.objects.create(sub_cat_name=datas['sub_cat_name'],sub_cat_icon=datas['sub_cat_icon'],commission=datas['commission'],gst=datas['gst'],homepage_view_status=datas['homepage_view_status'],cat_id = cid )
         new_subcat.save()
 
         # print(new_data.id)
@@ -174,7 +174,7 @@ class ChecksubchildAPI(views.APIView):
 class CheckprochildAPI(views.APIView):
     def post(self,request):
         inputs=request.data
-        get_pro=Product.objects.filter(sub_sub_cat_id_id=inputs['id'])
+        get_pro=Product.objects.filter(sub_sub_cat_id=inputs['id'])
         if get_pro.first():
             return Response({'flag':1},status=status.HTTP_200_OK)
         else:

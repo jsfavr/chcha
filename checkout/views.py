@@ -52,7 +52,7 @@ class checkoutItemsAPIView(views.APIView):
                     companyName = eachvendor.companyName
 
                 subcatdel = SubCategory.objects.filter(
-                    id=eachProd1.sub_cat_id_id)
+                    id=eachProd1.sub_cat_id)
                 for eachsubcatdel in subcatdel:
                     price = eachProd1.sellingPrice 
                     gst = (eachProd1.wihoutgstprice *
@@ -281,7 +281,7 @@ class orderSubmitAPIView(views.APIView):
                     sellprice = eachProduct.sellingPrice
                     orderCount = eachProduct.orderCount
                     sub_cat = SubCategory.objects.filter(
-                        id=eachProduct.sub_cat_id_id)
+                        id=eachProduct.sub_cat_id)
                     for eachsub_cat in sub_cat:
                         gstPercentage = eachsub_cat.gst
 

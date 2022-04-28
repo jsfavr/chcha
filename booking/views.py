@@ -119,7 +119,7 @@ class userBookingAPIView(views.APIView):
                 for eachbrand in brand22:
                     Brand = eachbrand.brand_name
                 subcatdel = SubCategory.objects.filter(
-                    id=eachproduct.sub_cat_id_id)
+                    id=eachproduct.sub_cat_id)
                 for eachsubcatdel in subcatdel:
                     gst = eachsubcatdel.gst
             productDetail = {
@@ -360,7 +360,7 @@ class vendorBookingAPIView(views.APIView):
             #     for eachbrand in brand22:
             #         Brand = eachbrand.brand_name
             #     subcatdel = SubCategory.objects.filter(
-            #         id=eachproduct.sub_cat_id_id)
+            #         id=eachproduct.sub_cat_id)
             #     for eachsubcatdel in subcatdel:
             #         gst = eachsubcatdel.gst
             # productDetail = {
@@ -483,7 +483,7 @@ class vendorsearchBookingAPIView(views.APIView):
                         for eachbrand in brand22:
                             Brand = eachbrand.brand_name
                         subcatdel = SubCategory.objects.filter(
-                            id=eachproduct.sub_cat_id_id)
+                            id=eachproduct.sub_cat_id)
                         for eachsubcatdel in subcatdel:
                             gst = eachsubcatdel.gst
                             comm = eachsubcatdel.commission
@@ -631,7 +631,7 @@ class userSingleBookingAPIView(views.APIView):
                 for eachbrand in brand22:
                     Brand = eachbrand.brand_name
                 subcatdel = SubCategory.objects.filter(
-                    id=eachproduct.sub_cat_id_id)
+                    id=eachproduct.sub_cat_id)
                 for eachsubcatdel in subcatdel:
                     gst = eachsubcatdel.gst
             productDetail = {
@@ -838,7 +838,7 @@ class vendorWiseBookingDetails(views.APIView):
                 vendorId = eachproduct.user_id_id
                 skuCode = eachproduct.skuCode
                 subcatdel = SubCategory.objects.filter(
-                    id=eachproduct.sub_cat_id_id)
+                    id=eachproduct.sub_cat_id)
                 for eachsubcatdel in subcatdel:
                     gst = eachsubcatdel.gst
                     com = eachsubcatdel.commission
@@ -1033,7 +1033,7 @@ class InvoiceBookingDetails(views.APIView):
                 vendorId = eachproduct.user_id_id
                 skuCode = eachproduct.skuCode
                 subcatdel = SubCategory.objects.filter(
-                    id=eachproduct.sub_cat_id_id)
+                    id=eachproduct.sub_cat_id)
                 for eachsubcatdel in subcatdel:
                     gst = eachsubcatdel.gst
                 new = {
@@ -1486,7 +1486,7 @@ class adminBookingAPIView(views.APIView):
             #     for eachbrand in brand22:
             #         Brand = eachbrand.brand_name
             #     subcatdel = SubCategory.objects.filter(
-            #         id=eachproduct.sub_cat_id_id)
+            #         id=eachproduct.sub_cat_id)
             #     for eachsubcatdel in subcatdel:
             #         gst = eachsubcatdel.gst
             # productDetail = {
@@ -1600,7 +1600,7 @@ class SearchBookingAPIView(views.APIView):
                 for eachbrand in brand22:
                     Brand = eachbrand.brand_name
                 subcatdel = SubCategory.objects.filter(
-                    id=eachproduct.sub_cat_id_id)
+                    id=eachproduct.sub_cat_id)
                 for eachsubcatdel in subcatdel:
                     gst = eachsubcatdel.gst
             productDetail = {
@@ -1817,7 +1817,7 @@ class deleveryBookingAPIView(views.APIView):
                 for eachbrand in brand22:
                     Brand = eachbrand.brand_name
                 subcatdel = SubCategory.objects.filter(
-                    id=eachproduct.sub_cat_id_id)
+                    id=eachproduct.sub_cat_id)
                 for eachsubcatdel in subcatdel:
                     gst = eachsubcatdel.gst
             productDetail = {
@@ -2046,7 +2046,7 @@ class deliveryBoyBookingAPIView(views.APIView):
                         for eachbrand in brand22:
                             Brand = eachbrand.brand_name
                         subcatdel = SubCategory.objects.filter(
-                            id=eachproduct.sub_cat_id_id)
+                            id=eachproduct.sub_cat_id)
                         for eachsubcatdel in subcatdel:
                             gst = eachsubcatdel.gst
                             comm = eachsubcatdel.commission
@@ -2156,7 +2156,7 @@ class deliveryBoyPendingBookingAPIView(views.APIView):
                     for eachbrand in brand22:
                         Brand = eachbrand.brand_name
                     subcatdel = SubCategory.objects.filter(
-                        id=eachproduct.sub_cat_id_id)
+                        id=eachproduct.sub_cat_id)
                     for eachsubcatdel in subcatdel:
                         gst = eachsubcatdel.gst
                         comm = eachsubcatdel.commission
@@ -2266,7 +2266,7 @@ class deliveryBoyCompleteBookingAPIView(views.APIView):
                     for eachbrand in brand22:
                         Brand = eachbrand.brand_name
                     subcatdel = SubCategory.objects.filter(
-                        id=eachproduct.sub_cat_id_id)
+                        id=eachproduct.sub_cat_id)
                     for eachsubcatdel in subcatdel:
                         gst = eachsubcatdel.gst
                         comm = eachsubcatdel.commission
@@ -2376,7 +2376,7 @@ class deliveryBoyCompleteReturnBookingAPIView(views.APIView):
                     for eachbrand in brand22:
                         Brand = eachbrand.brand_name
                     subcatdel = SubCategory.objects.filter(
-                        id=eachproduct.sub_cat_id_id)
+                        id=eachproduct.sub_cat_id)
                     for eachsubcatdel in subcatdel:
                         gst = eachsubcatdel.gst
                         comm = eachsubcatdel.commission
@@ -2486,7 +2486,7 @@ class deliveryBoyPendingReturnBookingAPIView(views.APIView):
                     for eachbrand in brand22:
                         Brand = eachbrand.brand_name
                     subcatdel = SubCategory.objects.filter(
-                        id=eachproduct.sub_cat_id_id)
+                        id=eachproduct.sub_cat_id)
                     for eachsubcatdel in subcatdel:
                         gst = eachsubcatdel.gst
                         comm = eachsubcatdel.commission
