@@ -1092,7 +1092,51 @@ class InvoiceBookingDetails(views.APIView):
                 'phone': phone,
                 'optionalPhone': optionalPhone,
             }
-            print(vendorId)
+            eachadd1 = ShippingAddress.objects.filter(
+                user_id_id=vendorId).first()
+            pincode = eachadd1.pincode
+            flat = eachadd1.flat
+            address = eachadd1.address
+            location = eachadd1.location
+            landmark = eachadd1.landmark
+            city = eachadd1.city
+            district = eachadd1.district
+            state = eachadd1.state
+            name = eachadd1.name
+            phone = eachadd1.phone
+            optionalPhone = eachadd1.optionalPhone
+
+            ReturnAddressDetails = {
+                'pincode': pincode,
+                'flat': flat,
+                'address': address,
+                'location': location,
+                'landmark': landmark,
+                'city': city,
+                'district': district,
+                'state': state,
+                'name': name,
+                'phone': phone,
+                'optionalPhone': optionalPhone,
+            }
+            eachbill = BillingAddress.objects.filter(
+                user_id_id=bookingAddress.user_id_id).first()
+            pincode = eachbill.pincode
+            flat = eachbill.flat
+            address = eachbill.address
+            location = eachbill.location
+            city = eachbill.city
+            district = eachbill.district
+            state = eachbill.state
+            BillingAddressDetails = {
+                'pincode': pincode,
+                'flat': flat,
+                'address': address,
+                'location': location,
+                'city': city,
+                'district': district,
+                'state': state,
+            }
             users = User.objects.filter(id=bookingAddress.user_id_id).first()
             uname = users.name
             uphone = users.phone
@@ -1140,8 +1184,8 @@ class InvoiceBookingDetails(views.APIView):
             returnArray = {
                 'bookingArray': bookingArr,
                 'shippingAddress': ShippingAddressDetails,
-                'returnAddress': ShippingAddressDetails,
-                'billingAddress': ShippingAddressDetails,
+                'returnAddress': ReturnAddressDetails,
+                'billingAddress': BillingAddressDetails,
                 'userDetails': UserDetails,
                 'productArray': productArray
             }
