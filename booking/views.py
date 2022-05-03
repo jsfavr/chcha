@@ -891,7 +891,8 @@ class vendorWiseBookingDetails(views.APIView):
                     'returnReason': reasonArr2,
                     'admin_com': round((sellingPrice*com)/100),
                     'vendor_id': vendorId,
-                    'vendor_paid_status': eachBooking.vendor_paid_status
+                    'vendor_paid_status': eachBooking.vendor_paid_status,
+                    'customer_paid_status': eachBooking.customer_paid_status
                 }
                 productSellingPrice = round(eachBooking.productSellingPrice * eachBooking.quantity)
                 couponDiscount = couponDiscount+eachBooking.couponDiscount
