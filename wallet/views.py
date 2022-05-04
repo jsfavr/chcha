@@ -336,7 +336,6 @@ class vendorPaymentCancel(views.APIView):
 
 
 def smsSend(phone, msg, template_id):
-   
     response = requests.get("https://www.hellotext.live/vb/apikey.php?apikey="+settings.WEBERLEADS_API +"&senderid="+settings.WEBERLEADS_SENDERID+"&templateid="+template_id+"&number="+phone+"&message="+msg)
     return(response)
 
