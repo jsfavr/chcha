@@ -284,6 +284,9 @@ class LogiotpView(views.APIView):
         inputs = request.data
         check_phone = User.objects.filter(phone=inputs['phone'])
         if check_phone:
+            message = 'Dear Customer, OTP to login to Hardware Chacha is '+inputs['otp']+'.REDUST'
+            template_id = '1707165034441741651'
+            smsSend(inputs['phone'], message, template_id)
             return Response({'msg': 'Phone found'}, status=status.HTTP_200_OK)
         else:
             return Response({'msg': 'Phone not found'}, status=status.HTTP_200_OK)
