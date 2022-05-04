@@ -1285,10 +1285,11 @@ class statusChange(views.APIView):
                 message="Hi " + str(userDetails.name) + ", Your order will bo delivered today. Our delivery boy Mr." + str(
                     inputs['name']) + ", Contact number " + inputs['phone'] + " will deliver your order."
             elif int(status) == 3:
-                sms = "Delivered : Thank you for ordering with Crowd, we are delighted to inform you that your order has been successfully delivered. Please check name quantity and expiry of your items and in case of any issue or item missing or wrong item please contact to us."
-                subject = 'Order Delivered'
-                template_id = ''
-                message="Thank you for ordering with Crowd, we are delighted to inform you that your order has been successfully delivered. Please check name quantity and expiry of your items and in case of any issue or item missing or wrong item please contact to us."
+                # sms = "Delivered : Thank you for ordering with Crowd, we are delighted to inform you that your order has been successfully delivered. Please check name quantity and expiry of your items and in case of any issue or item missing or wrong item please contact to us."
+                sms = 'Dear '+name+', Your Order Deliverd, Has been Confirm Amt. Received. Product Amount Delivery Date. '+str(date.today())+' Thank You Hardware Chacha REDUST'
+                template_id = '1707165034412797891'
+                
+                smsSend(phoneNumber, sms, template_id)
             # elif int(status)==4 :
             #     sms = "Delivered : Thank you for ordering with Crowd, we are delighted to inform you that your order has been successfully delivered. Please check name quantity and expiry of your items and in case of any issue or item missing or wrong item please contact to us."
             #     subject = 'Order Delivered'

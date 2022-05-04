@@ -327,8 +327,9 @@ class orderSubmitAPIView(views.APIView):
                 'status': 'No item found',
                 'code': 2,
             }
-            sms_body = 'Booking Successful : Thank you for ordering with Crowd, Your order is successfully placed. We will notify you as soon as when your order is ready.'
-
+            date = 'with in 1 day'
+            sms_body = 'Thank You for Shopping at Hardware Chacha. Contact No. - 7682968868 Date - '+date+' Item Name - Hardware Accessies Invoice No. -'+ORDER_ID+' Bill Amt. - '+str(grand_total)+' Hardware Chacha REDDUST'
+            template_id = '1707165034425142702'   
             # data = {
             #     'name': name,
             #     'email': email,
@@ -338,7 +339,6 @@ class orderSubmitAPIView(views.APIView):
             # }
             # Util.email_send(data)
 
-            # template_id = '1207161779674247058'
-            # smsSend(phone_no, sms_body, template_id)
+            smsSend(phone_no, sms_body, template_id)
         
         return Response(newrel)
