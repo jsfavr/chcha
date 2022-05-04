@@ -322,14 +322,17 @@ class orderSubmitAPIView(views.APIView):
                 'status': 'Booking Successfull',
                 'code': 1,
             }
+            date = 'with in 1 day'
+            sms_body = 'Thank You for Shopping at Hardware Chacha. Contact No. - 7682968868 Date - '+date+' Item Name - Hardware Accessies Invoice No. -'+ORDER_ID+' Bill Amt. - '+str(grand_total)+' Hardware Chacha REDDUST'
+            template_id = '1707165034425142702' 
+            smsSend(phone_no, sms_body, template_id)
+            
         else:
             newrel = {
                 'status': 'No item found',
                 'code': 2,
             }
-            date = 'with in 1 day'
-            sms_body = 'Thank You for Shopping at Hardware Chacha. Contact No. - 7682968868 Date - '+date+' Item Name - Hardware Accessies Invoice No. -'+ORDER_ID+' Bill Amt. - '+str(grand_total)+' Hardware Chacha REDDUST'
-            template_id = '1707165034425142702'   
+              
             # data = {
             #     'name': name,
             #     'email': email,
@@ -339,6 +342,5 @@ class orderSubmitAPIView(views.APIView):
             # }
             # Util.email_send(data)
 
-            smsSend(phone_no, sms_body, template_id)
         
         return Response(newrel)
